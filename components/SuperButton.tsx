@@ -3,7 +3,6 @@ import { Pressable, StyleSheet, Text } from "react-native";
 
 export const SuperButton = (props) => {
   const onPressFunction = () => {
-    console.log("dupa");
     props.onPress && props.onPress(); // call onPress only if it was passed to props of the component.
   };
   return (

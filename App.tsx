@@ -1,19 +1,19 @@
-import { HomeScreen } from "./screen/HomeScreen";
-import { StyleSheet, View } from "react-native";
+import React from "react";
+import { NavigationContainer } from "@react-navigation/native";
+import LoginScreen from "./screens/login";
+import HomeScreen from "./screens/home";
+import { View } from "react-native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+
+const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <HomeScreen />
-    </View>
+    <NavigationContainer>
+      <Stack.Navigator initialRoute="Login">
+        <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen name="Login" component={LoginScreen} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "EC434D",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});
