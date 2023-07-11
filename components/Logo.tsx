@@ -8,14 +8,14 @@ interface LogoProps {
 }
 
 export const Logo = (props: LogoProps) => {
-  const size = props.size || 10;
+  const size = props.size || 100;
 
   // Add custom styles, originated from props (passed from parent to this component)
   const containerStyle = Object.freeze({
     width: size,
     height: size,
     // To make the image round.
-    borderRadius: size,
+    borderRadius: size / 2, // Poprawiony fragment
   });
 
   return (
@@ -36,5 +36,9 @@ const styles = StyleSheet.create({
   image: {
     width: "100%",
     height: "100%",
+    borderRadius: 2,
+    borderWidth: 2,
+    borderColor: "black",
+    overflow: "hidden",
   },
 });
