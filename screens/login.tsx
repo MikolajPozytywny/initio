@@ -5,6 +5,7 @@ import LoginForm from "../components/LoginForm";
 import { Logo } from "../components/Logo";
 import { useNavigation } from "@react-navigation/native";
 import { LinearGradient } from "expo-linear-gradient";
+import { setStoreItem } from "../utils/async-store";
 
 const LoginScreen = () => {
   const navigation = useNavigation();
@@ -17,8 +18,9 @@ const LoginScreen = () => {
     navigation.navigate("Home" as never);
   };
 
-  const onSubmit = (email: string, password: string) => {
+  const onSubmit = async (email: string, password: string) => {
     console.log("Logging in with", email, password);
+    await setStoreItem("user", { email, password });
     navigateToHome();
   };
 
@@ -40,7 +42,7 @@ const LoginScreen = () => {
       <View style={{ marginVertical: 20 }}>
         <SuperButton
           onPress={navigateTorRegister}
-          myColor="#7c9"
+          myColor="white"
           title="Register"
           strona="left"
           czcionka="Inter-Black"
@@ -72,8 +74,9 @@ const styles = StyleSheet.create({
     position: "absolute",
     left: 0,
     right: 0,
-    top: 0,
-    bottom: 0,
+    top: -50,
+    bottom: -50,
+    width: "100%",
   },
 });
 

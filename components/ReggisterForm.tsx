@@ -4,22 +4,17 @@ import SuperTextInput from "../components/SuperTextInput";
 import { StyleSheet, View } from "react-native";
 import { Allert } from "./Allert";
 import { ViewStyle } from "react-native";
-import { IconButton } from "./IconButton";
-import { useNavigation } from "@react-navigation/native";
 
-interface LoginFormProps {
+interface ReggisterFormProps {
   onSubmit: (email: string, password: string) => void;
 }
 
-const LoginForm = (props: LoginFormProps) => {
+const ReggisterForm = (props: ReggisterFormProps) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [mrunio, setMrunio] = useState(0);
   const [allart, setAllart] = useState<string>("");
-  const navigation = useNavigation();
-  const navigateToHome = () => {
-    navigation.navigate("Home" as never);
-  };
+  const [ConfirmPassword, setConfirmPassword] = useState("");
   const onSubmit = () => {
     console.log("LoginForm, onSubmit =>", email, password);
     if (minimumLenght(password, 8)) {
@@ -62,38 +57,49 @@ const LoginForm = (props: LoginFormProps) => {
       }, 5000);
       return;
     }
+    if (!ConfirmedPassword([password, ConfirmPassword])) {
+      setAllart("hasla nie sa takie same");
+      setMrunio(1);
+      setTimeout(() => {
+        setMrunio(0);
+      }, 5000);
+      return;
+    }
     props.onSubmit(email, password);
   };
 
   return (
     <View>
-      <IconButton
-        onPress={navigateToHome}
-        icon="home-sharp"
-        iconButtonColor="darkblue"
-        isAntDesignActive={false}
+      <SuperTextInput
+        placeholderColor="white"
+        label="email"
+        onChange={setEmail}
+        value={email}
+        placeholder="email"
+        style={{ fontFamily: "Inter-Black" }}
+        width={300}
       />
       <View style={styles.container}>
         <SuperTextInput
-          label="E-Mail"
-          onChange={setEmail}
-          value={email}
-          placeholderColor="white"
-          placeholder="E-Mail"
-          style={{ fontFamily: "Inter-Black" }}
-          width={300}
-        />
-        <SuperTextInput
-          placeholderColor="white"
           label="password"
           onChange={setPassword}
           value={password}
-          placeholder="Password"
+          placeholderColor="white"
+          placeholder="password"
           style={{ fontFamily: "Inter-Black" }}
-          width={300}
+          width={310}
+        />
+        <SuperTextInput
+          placeholderColor="white"
+          label="ConfirmPassword"
+          onChange={setConfirmPassword}
+          value={ConfirmPassword}
+          placeholder="ConfirmPassword"
+          style={{ fontFamily: "Inter-Black" }}
+          width={310}
         />
       </View>
-      <View style={{ marginVertical: 20 }}>
+      <View style={{ marginTop: 70 }}>
         <SuperButton
           onPress={onSubmit}
           myColor="white"
@@ -111,10 +117,11 @@ const LoginForm = (props: LoginFormProps) => {
 const styles = StyleSheet.create({
   container: {
     maxWidth: 300,
+    maxHeight: 100,
   },
 });
 
-export default LoginForm;
+export default ReggisterForm;
 
 /**
  * Funkcja sprawdza czy długość stringa jest mniejsza od podanej wartości
@@ -166,4 +173,12 @@ const hasNumber = (ste: string) => {
 const validateEmail = (email: string): boolean => {
   const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
   return emailRegex.test(email);
+};
+
+const ConfirmedPassword = (passwords: [string, string]) => {
+  const [slu, stc] = passwords;
+  if (slu === stc) {
+    return true;
+  }
+  return false;
 };
