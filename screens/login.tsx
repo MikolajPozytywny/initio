@@ -27,7 +27,7 @@ const LoginScreen = () => {
   return (
     <View style={styles.container}>
       <LinearGradient
-        colors={["rgba(255, 61, 72, 1)", "rgba(60, 17, 67, 1)"]}
+        colors={["rgba(255, 61, 72, 1)", "rgba(80, 17, 67, 1)"]}
         start={{ x: 0.75, y: 0 }}
         end={{ x: 0.5, y: 1 }}
         style={styles.background}

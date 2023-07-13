@@ -84,6 +84,7 @@ const LoginForm = (props: LoginFormProps) => {
           width={300}
         />
         <SuperTextInput
+          secureTextEntry={true}
           placeholderColor="white"
           label="password"
           onChange={setPassword}

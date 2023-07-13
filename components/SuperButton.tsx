@@ -1,15 +1,22 @@
 import React from "react";
 import { Pressable, StyleSheet, Text } from "react-native";
 
+interface Props {
+  height?: number;
+}
+
 export const SuperButton = (props) => {
   const onPressFunction = () => {
     props.onPress && props.onPress(); // call onPress only if it was passed to props of the component.
   };
+
   return (
-    <Pressable style={[styles.container]} onPress={onPressFunction}>
+    <Pressable
+      style={[styles.container, { height: props.height }]}
+      onPress={onPressFunction}
+    >
       <Text
         style={[
-          styles.buttonText,
           {
             color: props.myColor,
             textAlign: props.strona,

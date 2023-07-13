@@ -18,6 +18,7 @@ interface SperTextInputProps {
   placeholder: string;
   style: TextStyle;
   width: number;
+  secureTextEntry?: boolean;
 }
 
 const SuperTextInput = (props: SperTextInputProps) => {
@@ -38,6 +39,7 @@ const SuperTextInput = (props: SperTextInputProps) => {
         {props.placeholder}
       </Text>
       <TextInput
+        secureTextEntry={props.secureTextEntry}
         style={[styles.container, { width: props.width }]}
         editable
         multiline
