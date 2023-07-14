@@ -7,62 +7,47 @@ import { LinearGradient } from "expo-linear-gradient";
 
 interface Props {}
 
-export const BottomBar = (props: Props) => {
+export const SwaiperBottomBar = (props: Props) => {
   const navigation = useNavigation();
 
   const [mrunio, setMrunio] = useState("hearto");
 
-  const navigateToLogin = () => {
-    navigation.navigate("Login" as never);
-  };
-
-  const LogOut = async () => {
-    await removeStoreItem("user");
-    navigateToLogin();
-  };
-
   const clicked = async () => {
     if (mrunio === "heart") {
       setMrunio("hearto");
-      console.log("licket");
+      console.log("unlicket");
       return;
     }
     setMrunio("heart");
-    console.log("UnLike");
+    console.log("Like");
   };
 
   return (
     <View style={styles.container}>
-      <LinearGradient
-        colors={["#7536db", "#DB36A4"]}
-        start={{ x: 0, y: 0 }}
-        end={{ x: 1, y: 0 }}
-        style={styles.gradientContainer}
-      >
-        <View style={styles.iconContainer}>
-          <IconButton
-            size={40}
-            onPress={LogOut}
-            icon="logout"
-            iconButtonColor="white"
-            isAntDesignActive={true}
-          />
-          <IconButton
-            size={40}
-            onPress={LogOut}
-            icon="pluscircleo"
-            iconButtonColor="white"
-            isAntDesignActive={true}
-          />
-          <IconButton
-            size={40}
-            onPress={clicked}
-            icon={mrunio}
-            iconButtonColor="white"
-            isAntDesignActive={true}
-          />
-        </View>
-      </LinearGradient>
+      <View style={styles.iconContainer}>
+        <IconButton
+          size={40}
+          icon="closecircleo"
+          iconButtonColor="white"
+          isAntDesignActive={true}
+          cyrcle="#DB36A4"
+        />
+        <IconButton
+          size={50}
+          icon="star"
+          iconButtonColor="white"
+          isAntDesignActive={true}
+          cyrcle="#7536db"
+        />
+        <IconButton
+          size={40}
+          onPress={clicked}
+          icon={mrunio}
+          iconButtonColor="white"
+          isAntDesignActive={true}
+          cyrcle="#DB36A4"
+        />
+      </View>
     </View>
   );
 };
@@ -71,13 +56,13 @@ const styles = StyleSheet.create({
   container: {
     justifyContent: "center",
     alignItems: "center",
-
     borderColor: "Dark", // Border color
     elevation: 0, // Decreased elevation
     height: 80,
     width: 360,
     top: 0,
     borderRadius: 100,
+    marginTop: 5,
   },
   gradientContainer: {
     borderRadius: 100,
@@ -89,9 +74,10 @@ const styles = StyleSheet.create({
     flexDirection: "row", // Przyciski zostaną ułożone w jednym rzędzie
     justifyContent: "space-between", // Odległość między przyciskami będzie równa
     alignItems: "center", // Przyciski będą wyśrodkowane w pionie
-    width: "100%",
+    width: "80%",
     height: "100%",
     paddingHorizontal: 20,
-    backgroundColor: "rgba(255,255,255, 0.25)",
+    borderRadius: 100,
+    backgroundColor: "rgba(255,255,255, 0)",
   },
 });

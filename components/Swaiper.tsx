@@ -1,12 +1,15 @@
 import React, { useRef, useState } from "react";
 import { View, ViewStyle, Image, ImageStyle } from "react-native";
 import DeckSwiper from "react-native-deck-swiper";
+import { IconButton } from "./IconButton";
+import { SuperButton } from "./SuperButton";
 
-interface Props {}
+interface Props {
+  esa?: string;
+}
 
 export const Swaiper = (props: Props) => {
   const swiperRef = useRef<DeckSwiper<any>>(null);
-  const [activeCardIndex, setActiveCardIndex] = useState<number>(0);
 
   const data = [
     { id: 1, image: require("../assets/imagines/download.png") },
@@ -25,48 +28,67 @@ export const Swaiper = (props: Props) => {
     },
   ];
 
-  const onSwiped = (cardIndex: number) => {
-    setActiveCardIndex(cardIndex);
+  const onSwipedRight = () => {
+    console.log("Match");
+  };
+  const onSwipedLeft = () => {
+    console.log("Discard");
   };
 
   return (
-    <DeckSwiper
-      infinite
-      ref={swiperRef}
-      backgroundColor="transparent"
-      cards={data}
-      cardIndex={activeCardIndex}
-      swipeAnimationDuration={155}
-      cardStyle={{ height: "80%" }}
-      keyExtractor={(card) => card.id}
-      renderCard={(card) => (
-        <View style={styles.card} key={card.id}>
-          <Image source={card.image} style={styles.image} />
-        </View>
-      )}
-      onSwipedRight={onSwiped}
-      onSwipedLeft={onSwiped}
-    />
+    <View style={styles.container}>
+      <DeckSwiper
+        infinite
+        ref={swiperRef}
+        backgroundColor="transparent"
+        cards={data}
+        swipeAnimationDuration={155}
+        cardStyle={{ height: "100%", maxwidth: "70%" }}
+        keyExtractor={(card) => card.id}
+        renderCard={(card) => (
+          <View style={styles.card} key={card.id}>
+            <Image source={card.image} style={styles.image} />
+          </View>
+        )}
+        onSwipedRight={onSwipedRight}
+        onSwipedLeft={onSwipedLeft}
+      />
+    </View>
   );
 };
 
 const styles: {
+  container: ViewStyle;
   card: ViewStyle;
   image: ImageStyle;
 } = {
+  container: {
+    flex: 1,
+
+    justifyContent: "flex-start",
+    alignItems: "flex-start",
+    maxHeight: "100%",
+    width: 100,
+  },
   card: {
     flex: 1,
     justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "white",
-    // padding: 16,
-    elevation: 2,
+    elevation: 4,
     borderRadius: 50,
+    maxWidth: "100%",
+    margin: 10,
+    right: 155,
+    top: -60,
   },
   image: {
+    flex: 1,
+    backgroundColor: "green",
     width: "100%",
     height: "100%",
     resizeMode: "cover",
     borderRadius: 50,
+    maxHeight: "100%",
   },
 };
+
+export default Swaiper;

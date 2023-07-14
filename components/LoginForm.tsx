@@ -72,6 +72,7 @@ const LoginForm = (props: LoginFormProps) => {
         icon="home-sharp"
         iconButtonColor="darkblue"
         isAntDesignActive={false}
+        size={30}
       />
       <View style={styles.container}>
         <SuperTextInput

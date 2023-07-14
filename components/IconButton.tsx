@@ -6,30 +6,45 @@ import { isPropertySignature } from "typescript";
 import { AntDesign } from "@expo/vector-icons";
 
 interface Props {
-  onPress: () => void;
+  onPress?: () => void;
   icon: string;
   isAntDesignActive: boolean;
   iconButtonColor: string;
+  backgroundColor?: string;
+  padding?: number;
+  borderRadius?: number;
+  size: number;
+  cyrcle?: string;
 }
 export const IconButton = (props: Props) => {
   const onPressFunction = () => {
     props.onPress();
   };
   return (
-    <Pressable style={[styles.container]} onPress={onPressFunction}>
+    <Pressable
+      style={[styles.container, { backgroundColor: props.cyrcle }]}
+      onPress={onPressFunction}
+    >
       {props.isAntDesignActive ? (
         <AntDesign
           name={props.icon as any}
-          size={32}
+          size={props.size}
           color={props.iconButtonColor}
         />
       ) : (
-        <Ionicons name={props.icon as any} size={32} color="green" />
+        <Ionicons
+          name={props.icon as any}
+          size={props.size}
+          color={props.iconButtonColor}
+        />
       )}
     </Pressable>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {},
+  container: {
+    borderRadius: 100,
+    padding: 10,
+  },
 });

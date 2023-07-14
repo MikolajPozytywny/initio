@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingRight: 100,
     paddingLeft: 10,
-    backgroundColor: "rgba(0, 0, 0, 0.25)", // Black color with 25% opacity
+    backgroundColor: "rgba(0, 0, 0, 0)", // Black color with 25% opacity
     borderWidth: 2, // Border width
     borderColor: "black", // Border color
     elevation: 0, // Decreased elevation
