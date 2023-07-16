@@ -30,14 +30,16 @@ export const SwaiperBottomBar = (props: Props) => {
           icon="closecircleo"
           iconButtonColor="white"
           isAntDesignActive={true}
-          cyrcle="#DB36A4"
+          cyrcle="#6B6B6B"
+          borderRadius={100}
         />
         <IconButton
           size={50}
           icon="star"
           iconButtonColor="white"
           isAntDesignActive={true}
-          cyrcle="#7536db"
+          cyrcle="#6B6B6B"
+          borderRadius={100}
         />
         <IconButton
           size={40}
@@ -45,7 +47,8 @@ export const SwaiperBottomBar = (props: Props) => {
           icon={mrunio}
           iconButtonColor="white"
           isAntDesignActive={true}
-          cyrcle="#DB36A4"
+          cyrcle="#6B6B6B"
+          borderRadius={100}
         />
       </View>
     </View>

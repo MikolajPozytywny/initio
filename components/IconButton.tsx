@@ -22,7 +22,7 @@ export const IconButton = (props: Props) => {
   };
   return (
     <Pressable
-      style={[styles.container, { backgroundColor: props.cyrcle }]}
+      style={[styles.container, { backgroundColor: props.cyrcle, borderRadius: props.borderRadius}]}
       onPress={onPressFunction}
     >
       {props.isAntDesignActive ? (
@@ -44,7 +44,6 @@ export const IconButton = (props: Props) => {
 
 const styles = StyleSheet.create({
   container: {
-    borderRadius: 100,
     padding: 10,
   },
 });

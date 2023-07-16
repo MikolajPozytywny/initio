@@ -9,6 +9,11 @@ import { ActivityIndicator } from "react-native";
 import ReggisterScreen from "./screens/reggister";
 import { useAsyncStorage } from "@react-native-async-storage/async-storage";
 import { useUser } from "./utils/user-hook";
+import SettingsScreen from "./screens/settings";
+import ProfileScreen from "./screens/profile";
+import ChatScreen from "./screens/chat";
+import ChatLobby from "./screens/chatLobby";
+import ChatLobbyScreen from "./screens/chatLobby";
 
 const Stack = createNativeStackNavigator();
 
@@ -32,11 +37,14 @@ export default function App() {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName={initialRoute}>
+      <Stack.Navigator initialRouteName={initialRoute} screenOptions={{ headerShown: false }}>
         <Stack.Screen name="Home" component={HomeScreen} />
         <Stack.Screen name="Login" component={LoginScreen} />
         <Stack.Screen name="Reggister" component={ReggisterScreen} />
-        {/* <Stack.Screen name="Register" component={RegisterScreen} /> */}
+        <Stack.Screen name="Settings" component={SettingsScreen} />
+        <Stack.Screen name="Profile" component={ProfileScreen} />
+        <Stack.Screen name="Chat" component={ChatScreen} />
+        <Stack.Screen name="ChatLobby" component={ ChatLobbyScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

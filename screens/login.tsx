@@ -26,12 +26,6 @@ const LoginScreen = () => {
 
   return (
     <View style={styles.container}>
-      <LinearGradient
-        colors={["#7536db", "#DB36A4"]}
-        start={{ x: 0.75, y: 0 }}
-        end={{ x: 0.5, y: 1 }}
-        style={styles.background}
-      />
 
       <Logo />
 
@@ -47,6 +41,7 @@ const LoginScreen = () => {
           strona="left"
           czcionka="Inter-Black"
           size={16} // Dodaj tę właściwość, aby zmienić rozmiar napisu
+          
         >
           Go To Login
         </SuperButton>
@@ -62,13 +57,14 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     marginVertical: 20,
     width: "100%",
+    backgroundColor: "#241E24",
   },
   loginContainer: {
     alignItems: "center",
     justifyContent: "center",
     marginVertical: 20,
     //backgroundColor: "yellow",
-    width: "70%",
+    maxWidth: "70%",
   },
   background: {
     position: "absolute",

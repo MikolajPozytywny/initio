@@ -15,11 +15,16 @@ interface SperTextInputProps {
   onChange: (text: string) => void;
   label: string;
   placeholderColor: string;
-  placeholder: string;
+  placeholder?: string;
   style: TextStyle;
-  width: number;
+  width?: any;
   secureTextEntry?: boolean;
-}
+  maxWidth?: any;
+  backgroundColor?: string;
+  borderColor?: string;
+  borderRadius?: number;
+  MarginTop?: number;
+} 
 
 const SuperTextInput = (props: SperTextInputProps) => {
   const handleSendMessage = (text: string) => {
@@ -28,19 +33,19 @@ const SuperTextInput = (props: SperTextInputProps) => {
   };
 
   return (
-    <View>
-      <Text
-        style={[
-          styles.placeholder,
-          { color: props.placeholderColor },
-          props.style,
-        ]}
-      >
-        {props.placeholder}
-      </Text>
+    <View 
+    style={{ width: 
+      props.width,
+       maxWidth: props.maxWidth, 
+
+}}
+    >
+
       <TextInput
         secureTextEntry={props.secureTextEntry}
-        style={[styles.container, { width: props.width }]}
+        style={[styles.container
+        
+        , { backgroundColor: props.backgroundColor, borderColor: props.borderColor, borderRadius: props.borderRadius, marginTop: props.MarginTop}]}
         editable
         multiline
         numberOfLines={1}
@@ -48,6 +53,10 @@ const SuperTextInput = (props: SperTextInputProps) => {
         onChangeText={handleSendMessage}
         value={props.value}
         placeholderTextColor={props.placeholderColor}
+        placeholder={props.placeholder}
+
+  
+        
       />
     </View>
   );
@@ -58,7 +67,7 @@ const styles = StyleSheet.create({
     marginLeft: 0,
     marginRight: 10,
     justifyContent: "center",
-    alignItems: "flex-start",
+    alignItems: "center",
     borderRadius: 10,
     paddingVertical: 10,
     paddingRight: 10,
@@ -67,7 +76,6 @@ const styles = StyleSheet.create({
     borderWidth: 2, // Border width
     borderColor: "black", // Border color
     elevation: 0, // Decreased elevation
-    height: 50,
     color: "white",
   },
   placeholder: {

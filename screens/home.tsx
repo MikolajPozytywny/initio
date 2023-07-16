@@ -10,6 +10,7 @@ import { Swaiper } from "../components/Swaiper";
 import { SuperButton } from "../components/SuperButton";
 import { BottomBar } from "../components/BottomBar";
 import { SwaiperBottomBar } from "../components/SwaiperBottomBar";
+import { Slider1 } from "../components/Slider";
 
 const HomeScreen = () => {
   const navigation = useNavigation();
@@ -17,6 +18,18 @@ const HomeScreen = () => {
   const navigateToLogin = () => {
     navigation.navigate("Login" as never);
   };
+
+  const navigateToSettingsScreen = () => {
+    navigation.navigate("Settings" as never);
+  };
+
+  const navigateToProfileScreen = () => {
+    navigation.navigate("Profile" as never);
+  };
+  const navigateToProfileChat = () => {
+    navigation.navigate("Chat" as never);
+  };
+
 
   const LogOut = async () => {
     await removeStoreItem("user");
@@ -32,12 +45,14 @@ const HomeScreen = () => {
             icon="person-circle"
             iconButtonColor="white"
             isAntDesignActive={false}
+            onPress={navigateToProfileScreen}
           />
           <IconButton
             size={40}
             icon="setting"
             iconButtonColor="white"
             isAntDesignActive={true}
+            onPress={navigateToSettingsScreen}
           />
         </View>
         <View style={styles.swaiperContainer}>
@@ -46,7 +61,7 @@ const HomeScreen = () => {
             <SwaiperBottomBar />
           </View>
         </View>
-
+        <Slider1 onSlideUp={console.log} />
         <View style={styles.superButtonContainer}>
           <BottomBar />
         </View>
@@ -67,7 +82,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#424242",
     alignItems: "center",
     paddingHorizontal: 5,
-    top: 10,
+    top: -50,
     marginTop: 10,
     maxHeight: "70%",
     Width: "110%",
@@ -91,8 +106,8 @@ const styles = StyleSheet.create({
     alignItems: "center", // Przyciski będą wyśrodkowane w pionie
     width: "100%",
 
-    paddingHorizontal: 10,
-    paddingVertical: 10,
+    paddingHorizontal: 5,
+    paddingVertical: 5,
   },
 });
 

@@ -10,7 +10,6 @@ interface Props {}
 export const BottomBar = (props: Props) => {
   const navigation = useNavigation();
 
-  const [mrunio, setMrunio] = useState("hearto");
 
   const navigateToLogin = () => {
     navigation.navigate("Login" as never);
@@ -21,14 +20,8 @@ export const BottomBar = (props: Props) => {
     navigateToLogin();
   };
 
-  const clicked = async () => {
-    if (mrunio === "heart") {
-      setMrunio("hearto");
-      console.log("licket");
-      return;
-    }
-    setMrunio("heart");
-    console.log("UnLike");
+  const navigateToProfileChatLobby = async () => {
+    navigation.navigate("ChatLobby" as never);
   };
 
   return (
@@ -56,10 +49,10 @@ export const BottomBar = (props: Props) => {
           />
           <IconButton
             size={40}
-            onPress={clicked}
-            icon={mrunio}
+            onPress={navigateToProfileChatLobby}
+            icon="chatbox"
             iconButtonColor="white"
-            isAntDesignActive={true}
+            isAntDesignActive={false}
           />
         </View>
       </LinearGradient>

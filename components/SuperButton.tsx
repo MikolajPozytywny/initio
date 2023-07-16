@@ -1,8 +1,11 @@
 import React from "react";
-import { Pressable, StyleSheet, Text } from "react-native";
+import { Pressable, StyleSheet, Text, View } from "react-native";
 
 interface Props {
-  height?: number;
+  height: number;
+  width: any;
+  maxWidht: any;
+  
 }
 
 export const SuperButton = (props) => {
@@ -11,8 +14,9 @@ export const SuperButton = (props) => {
   };
 
   return (
+    <View style={[ { height: props.height, width: props.width, maxWidth: props.maxWidth }]}>
     <Pressable
-      style={[styles.container, { height: props.height }]}
+      style={[styles.container]}
       onPress={onPressFunction}
     >
       <Text
@@ -24,27 +28,29 @@ export const SuperButton = (props) => {
             fontFamily: props.czcionka,
             fontWeight: props.weight,
             fontStyle: props.style,
+            backgroundColor: props.bgColor,
           },
         ]}
       >
         {props.title}
       </Text>
     </Pressable>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     justifyContent: "center",
-    alignItems: "flex-start",
+    alignItems: "center",
     borderRadius: 10,
     paddingVertical: 10,
     paddingRight: 100,
     paddingLeft: 10,
-    backgroundColor: "rgba(0, 0, 0, 0)", // Black color with 25% opacity
     borderWidth: 2, // Border width
     borderColor: "black", // Border color
     elevation: 0, // Decreased elevation
+    backgroundColor: "rgba(0, 0, 0, 0.25)",
   },
   buttonText: {
     fontSize: 16, // Default font size

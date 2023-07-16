@@ -83,8 +83,12 @@ const LoginForm = (props: LoginFormProps) => {
           placeholder="E-Mail"
           style={{ fontFamily: "Inter-Black" }}
           width={300}
+          backgroundColor="#454444"
+          borderColor="transparent"
+          borderRadius={20}
         />
         <SuperTextInput
+        MarginTop={20} 
           secureTextEntry={true}
           placeholderColor="white"
           label="password"
@@ -92,7 +96,10 @@ const LoginForm = (props: LoginFormProps) => {
           value={password}
           placeholder="Password"
           style={{ fontFamily: "Inter-Black" }}
-          width={300}
+    width={300}
+          backgroundColor="#454444"
+          borderColor="transparent"
+          borderRadius={20}
         />
       </View>
       <View style={{ marginVertical: 20 }}>
@@ -112,7 +119,9 @@ const LoginForm = (props: LoginFormProps) => {
 
 const styles = StyleSheet.create({
   container: {
-    maxWidth: 300,
+    
+    maxWidth: "100%",
+    width: "100%",
   },
 });
 
