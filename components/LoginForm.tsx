@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import { SuperButton } from "../components/SuperButton";
-import SuperTextInput from "../components/SuperTextInput";
+
 import { StyleSheet, View } from "react-native";
 import { Allert } from "./Allert";
 import { ViewStyle } from "react-native";
-import { IconButton } from "./IconButton";
 import { useNavigation } from "@react-navigation/native";
+import {Badge, Button,TextInput} from "react-native-paper";
+import { IconButton, MD3Colors } from 'react-native-paper';
 
 interface LoginFormProps {
   onSubmit: (email: string, password: string) => void;
@@ -67,27 +68,32 @@ const LoginForm = (props: LoginFormProps) => {
 
   return (
     <View>
-      <IconButton
-        onPress={navigateToHome}
-        icon="home-sharp"
-        iconButtonColor="darkblue"
-        isAntDesignActive={false}
-        size={30}
-      />
+ 
       <View style={styles.container}>
-        <SuperTextInput
+      <TextInput
+       mode="outlined"
           label="E-Mail"
-          onChange={setEmail}
+          onChangeText={setEmail}
           value={email}
-          placeholderColor="white"
+          right={<TextInput.Affix text="/100" />}
           placeholder="E-Mail"
-          style={{ fontFamily: "Inter-Black" }}
-          width={300}
-          backgroundColor="#454444"
-          borderColor="transparent"
-          borderRadius={20}
+          style={{ width: 300}}
+      
+     
         />
-        <SuperTextInput
+       
+        <TextInput
+              mode="outlined"
+              label="password"
+              placeholder="Password"
+              secureTextEntry
+              right={<TextInput.Affix text="/100" />}
+              value={password}
+              onChangeText={setPassword}
+              style={{ width: 300 }}
+              
+            />
+        {/* <TextInput
         MarginTop={20} 
           secureTextEntry={true}
           placeholderColor="white"
@@ -100,18 +106,20 @@ const LoginForm = (props: LoginFormProps) => {
           backgroundColor="#454444"
           borderColor="transparent"
           borderRadius={20}
-        />
+        /> */}
+
       </View>
       <View style={{ marginVertical: 20 }}>
-        <SuperButton
-          onPress={onSubmit}
-          myColor="white"
-          strona="left"
-          title="wyślij"
-          czcionka="Inter-Black"
-          size={16}
-        />
+        
+        <Button  
+        
+        onPress={onSubmit}
+        mode="contained"
+        >login</Button>
+
+        
         {mrunio === 1 && <Allert Allart={allart} />}
+
       </View>
     </View>
   );
@@ -119,9 +127,8 @@ const LoginForm = (props: LoginFormProps) => {
 
 const styles = StyleSheet.create({
   container: {
+    backgroundColor: "#241E24",
     
-    maxWidth: "100%",
-    width: "100%",
   },
 });
 

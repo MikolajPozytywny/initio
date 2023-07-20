@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   Animated,
 } from "react-native";
-import { IconButton } from "./IconButton";
+import { IconButton } from "react-native-paper";
 
 interface SlideUpComponentProps {
   onSlideUp: () => void; // Funkcja wywoływana po wysunięciu komponentu
@@ -61,12 +61,11 @@ export const Slider1: React.FC<SlideUpComponentProps> = ({ onSlideUp }) => {
             {mrunio == 0 && (
               <IconButton
                 icon="down"
-                iconButtonColor="white"
-                isAntDesignActive={true}
+                iconColor="white"
+                
                 size={30}
                 onPress={handleSlideUp}
-                cyrcle="#6B6B6B"
-                borderRadius={100}
+            
               />
             )}
           </View>
@@ -92,7 +91,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   slideUpContainer: {
-    borderRadius: 40,
+    borderRadius: 20,
     position: "absolute",
     bottom: 0,
     left: 0,

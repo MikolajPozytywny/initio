@@ -1,32 +1,41 @@
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import React, { useState } from "react";
 import { StyleSheet, View, Text } from "react-native";
 import { user, messages } from "../utils/Mocks/Mock_1";
 import { ChatBuble } from "../components/ChatBuble";
 import { SuperButton } from "../components/SuperButton";
-import SuperTextInput from "../components/SuperTextInput";
+
 import { TopBar } from "../components/TopBar";
 
-interface ChatScreenProps {}
+interface ChatScreenProps {
+  route: any; // Route prop from react-navigation
+}
 
-const ChatScreen = (props: ChatScreenProps) => {
-    const navigation = useNavigation();
+const ChatScreen = ({ route }: ChatScreenProps) => {
+  const navigation = useNavigation();
 
-    
-  const [text, settext] = useState("");
+  const [text, setText] = useState("");
 
+  // Get the selected user from route params
+  const { ConverationId } = route.params;
   
+  // const Route = useRoute();
 
+  // console.log(Route.params);
+  console.log(route.params)
+  
   return (
     <View style={styles.container}>
-        <View style={styles.topBar}>
+      <View style={styles.topBar}>
         <TopBar />
+      </View>
 
-        </View>
-
-      <ChatBuble text={text}
+      <ChatBuble text={text} 
+      conversationId={ConverationId}
+      
+      
+      
       />
-
     </View>
   );
 };
@@ -35,13 +44,13 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#241E24",
-  },
-    topBar: {
-      paddingTop: 20,
-      paddingHorizontal: 20,
-maxWidth: "100%",   
 
-    },
+  },
+  topBar: {
+    paddingTop: 20,
+    paddingHorizontal: 20,
+    maxWidth: "100%",
+  },
 });
 
 export default ChatScreen;

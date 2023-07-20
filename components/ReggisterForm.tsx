@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import { SuperButton } from "../components/SuperButton";
-import SuperTextInput from "../components/SuperTextInput";
+
 import { StyleSheet, View } from "react-native";
 import { Allert } from "./Allert";
 import { ViewStyle } from "react-native";
+import { Button, TextInput } from "react-native-paper";
 
 interface ReggisterFormProps {
   onSubmit: (email: string, password: string) => void;
@@ -70,44 +71,43 @@ const ReggisterForm = (props: ReggisterFormProps) => {
 
   return (
     <View>
-      <SuperTextInput
-        placeholderColor="white"
-        label="email"
-        onChange={setEmail}
-        value={email}
-        placeholder="email"
-        style={{ fontFamily: "Inter-Black" }}
-        width={300}
-      />
       <View style={styles.container}>
-        <SuperTextInput
-          label="password"
-          onChange={setPassword}
-          value={password}
-          placeholderColor="white"
-          placeholder="password"
-          style={{ fontFamily: "Inter-Black" }}
-          width={310}
+        <TextInput
+          mode="outlined"
+          label="E-Mail"
+          onChangeText={setEmail}
+          value={email}
+          right={<TextInput.Affix text="/100" />}
+          placeholder="E-Mail"
+          style={{ width: 300 }}
         />
-        <SuperTextInput
-          placeholderColor="white"
-          label="ConfirmPassword"
-          onChange={setConfirmPassword}
+
+        <TextInput
+          mode="outlined"
+          label="password"
+          placeholder="Password"
+          secureTextEntry
+          right={<TextInput.Affix text="/100" />}
+          value={password}
+          onChangeText={setPassword}
+          style={{ width: 300 }}
+        />
+        <TextInput
+          mode="outlined"
+          label="confirmPassword"
+          placeholder="confirmPassword"
+          secureTextEntry
+          right={<TextInput.Affix text="/100" />}
           value={ConfirmPassword}
-          placeholder="ConfirmPassword"
-          style={{ fontFamily: "Inter-Black" }}
-          width={310}
+          onChangeText={setConfirmPassword}
+          style={{ width: 300 }}
         />
       </View>
-      <View style={{ marginTop: 70 }}>
-        <SuperButton
-          onPress={onSubmit}
-          myColor="white"
-          strona="left"
-          title="wyślij"
-          czcionka="Inter-Black"
-          size={16}
-        />
+      <View style={{ marginVertical: 20 }}>
+        <Button onPress={onSubmit} mode="contained">
+          reggister
+        </Button>
+
         {mrunio === 1 && <Allert Allart={allart} />}
       </View>
     </View>
@@ -116,8 +116,8 @@ const ReggisterForm = (props: ReggisterFormProps) => {
 
 const styles = StyleSheet.create({
   container: {
-    maxWidth: 300,
-    maxHeight: 100,
+    maxWidth: "100%",
+    width: "100%",
   },
 });
 

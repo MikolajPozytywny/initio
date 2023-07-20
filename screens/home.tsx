@@ -11,6 +11,7 @@ import { SuperButton } from "../components/SuperButton";
 import { BottomBar } from "../components/BottomBar";
 import { SwaiperBottomBar } from "../components/SwaiperBottomBar";
 import { Slider1 } from "../components/Slider";
+import { SwaiperTopBar } from "../components/SwaiperTopBar";
 
 const HomeScreen = () => {
   const navigation = useNavigation();
@@ -39,22 +40,7 @@ const HomeScreen = () => {
   return (
     <>
       <View style={styles.container}>
-        <View style={styles.topBarContainer}>
-          <IconButton
-            size={40}
-            icon="person-circle"
-            iconButtonColor="white"
-            isAntDesignActive={false}
-            onPress={navigateToProfileScreen}
-          />
-          <IconButton
-            size={40}
-            icon="setting"
-            iconButtonColor="white"
-            isAntDesignActive={true}
-            onPress={navigateToSettingsScreen}
-          />
-        </View>
+        <SwaiperTopBar />
         <View style={styles.swaiperContainer}>
           <Swaiper />
           <View style={styles.swaiperBottomBarConteiner}>
@@ -88,6 +74,7 @@ const styles = StyleSheet.create({
     Width: "110%",
     borderRadius: 60,
     alignSelf: "center", // Align the Swaiper to the top
+    marginBottom: 20,
   },
   superButtonContainer: {
     maxHeight: "100%", // Adjust the height as needed

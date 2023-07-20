@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "516680610433",
+    "project_id": "initio-f1fed",
+    "storage_bucket": "initio-f1fed.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:516680610433:android:8bef25a092924f006d9380",
+        "android_client_info": {
+          "package_name": "com.initio.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "516680610433-6vjg9nbkivl41nmhennnq59ud0npg3e8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC9GtqEHZsnH9eEMmsRm3LwMghPLdlbxU0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "516680610433-6vjg9nbkivl41nmhennnq59ud0npg3e8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -5,6 +5,10 @@ import { Logo } from "../components/Logo";
 import { useNavigation } from "@react-navigation/native";
 import { LinearGradient } from "expo-linear-gradient";
 import ReggisterForm from "../components/ReggisterForm";
+import { auth } from "../fireBaseConfig";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { setStoreItem, getStoreItem } from "../utils/async-store";
+import { userInfo } from "../api/user.api";
 
 const ReggisterScreen = () => {
   const navigation = useNavigation();
@@ -17,20 +21,44 @@ const ReggisterScreen = () => {
     navigation.navigate("Home" as never);
   };
 
-  const onSubmit = (email: string, password: string) => {
+  const onSubmit = async (email: string, password: string) => {
     console.log("Reggister in with", email, password);
-    navigateToHome();
+
+    const loggedInUser = await getStoreItem("user");
+
+    if (loggedInUser) {
+      console.error("User already logged in");
+      return;
+    }
+
+    try {
+      const response = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+
+      console.log("User registered:", response);
+
+      const user = {
+        email: response.user.email,
+        uid: response.user.uid,
+        avatar_url: response.user.photoURL,
+        name: response.user.displayName,
+      };
+
+      console.log("User info", user);
+
+      await setStoreItem("user", user);
+
+      navigateToHome();
+    } catch (err) {
+      console.error("Error registering user:", err);
+    }
   };
 
   return (
     <View style={styles.container}>
-      <LinearGradient
-        colors={["rgba(255, 61, 72, 1)", "rgba(60, 17, 67, 1)"]}
-        start={{ x: 0.75, y: 0 }}
-        end={{ x: 0.5, y: 1 }}
-        style={styles.background}
-      />
-
       <Logo />
 
       <View style={styles.loginContainer}>
@@ -55,6 +83,7 @@ const ReggisterScreen = () => {
 
 const styles = StyleSheet.create({
   container: {
+    backgroundColor: "#241E24",
     flex: 1,
     alignItems: "center",
     justifyContent: "center",

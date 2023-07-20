@@ -25,7 +25,7 @@ export const SuperButton = (props) => {
             color: props.myColor,
             textAlign: props.strona,
             fontSize: props.size,
-            fontFamily: props.czcionka,
+            // fontFamily: props.czcionka,
             fontWeight: props.weight,
             fontStyle: props.style,
             backgroundColor: props.bgColor,
@@ -41,16 +41,13 @@ export const SuperButton = (props) => {
 
 const styles = StyleSheet.create({
   container: {
-    justifyContent: "center",
-    alignItems: "center",
-    borderRadius: 10,
+    borderRadius: 20,
     paddingVertical: 10,
     paddingRight: 100,
     paddingLeft: 10,
-    borderWidth: 2, // Border width
-    borderColor: "black", // Border color
     elevation: 0, // Decreased elevation
-    backgroundColor: "rgba(0, 0, 0, 0.25)",
+    backgroundColor:"#454444"
+
   },
   buttonText: {
     fontSize: 16, // Default font size

@@ -6,6 +6,10 @@ import { Logo } from "../components/Logo";
 import { useNavigation } from "@react-navigation/native";
 import { LinearGradient } from "expo-linear-gradient";
 import { setStoreItem } from "../utils/async-store";
+import { Button, TextInput } from "react-native-paper";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../fireBaseConfig";
+import { userInfo } from "../api/user.api";
 
 const LoginScreen = () => {
   const navigation = useNavigation();
@@ -19,14 +23,24 @@ const LoginScreen = () => {
   };
 
   const onSubmit = async (email: string, password: string) => {
-    console.log("Logging in with", email, password);
-    await setStoreItem("user", { email, password });
-    navigateToHome();
+    try {
+      const response = await signInWithEmailAndPassword(auth, email, password);
+
+      console.log("Successfuly logged in", response.user.uid);
+
+      const user = await userInfo(response.user.uid);
+
+      console.log("User info", user);
+
+      await setStoreItem("user", user);
+      navigateToHome();
+    } catch (err) {
+      console.error("Error logging in", err);
+    }
   };
 
   return (
     <View style={styles.container}>
-
       <Logo />
 
       <View style={styles.loginContainer}>
@@ -34,17 +48,9 @@ const LoginScreen = () => {
       </View>
 
       <View style={{ marginVertical: 20 }}>
-        <SuperButton
-          onPress={navigateTorRegister}
-          myColor="white"
-          title="Register"
-          strona="left"
-          czcionka="Inter-Black"
-          size={16} // Dodaj tę właściwość, aby zmienić rozmiar napisu
-          
-        >
-          Go To Login
-        </SuperButton>
+        <Button onPress={navigateTorRegister} mode="contained">
+          reggister
+        </Button>
       </View>
     </View>
   );
@@ -58,20 +64,14 @@ const styles = StyleSheet.create({
     marginVertical: 20,
     width: "100%",
     backgroundColor: "#241E24",
+    height: "200%",
   },
   loginContainer: {
     alignItems: "center",
     justifyContent: "center",
     marginVertical: 20,
     //backgroundColor: "yellow",
-    maxWidth: "70%",
-  },
-  background: {
-    position: "absolute",
-    left: 0,
-    right: 0,
-    top: -50,
-    bottom: -50,
+    maxWidth: "100%",
     width: "100%",
   },
 });
