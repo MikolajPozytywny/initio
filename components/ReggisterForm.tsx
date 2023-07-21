@@ -79,7 +79,6 @@ const ReggisterForm = (props: ReggisterFormProps) => {
           value={email}
           right={<TextInput.Affix text="/100" />}
           placeholder="E-Mail"
-          style={{ width: 300 }}
         />
 
         <TextInput
@@ -90,7 +89,6 @@ const ReggisterForm = (props: ReggisterFormProps) => {
           right={<TextInput.Affix text="/100" />}
           value={password}
           onChangeText={setPassword}
-          style={{ width: 300 }}
         />
         <TextInput
           mode="outlined"
@@ -100,7 +98,6 @@ const ReggisterForm = (props: ReggisterFormProps) => {
           right={<TextInput.Affix text="/100" />}
           value={ConfirmPassword}
           onChangeText={setConfirmPassword}
-          style={{ width: 300 }}
         />
       </View>
       <View style={{ marginVertical: 20 }}>
@@ -117,7 +114,7 @@ const ReggisterForm = (props: ReggisterFormProps) => {
 const styles = StyleSheet.create({
   container: {
     maxWidth: "100%",
-    width: "100%",
+    width: 300,
   },
 });
 

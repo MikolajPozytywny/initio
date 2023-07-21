@@ -6,6 +6,7 @@ import { ChatBuble } from "../components/ChatBuble";
 import { SuperButton } from "../components/SuperButton";
 
 import { TopBar } from "../components/TopBar";
+import { ProgressBar } from "react-native-paper";
 
 interface ChatScreenProps {
   route: any; // Route prop from react-navigation
@@ -18,24 +19,19 @@ const ChatScreen = ({ route }: ChatScreenProps) => {
 
   // Get the selected user from route params
   const { ConverationId } = route.params;
-  
+
   // const Route = useRoute();
 
   // console.log(Route.params);
-  console.log(route.params)
-  
+  console.log(route.params);
+
   return (
     <View style={styles.container}>
       <View style={styles.topBar}>
         <TopBar />
       </View>
 
-      <ChatBuble text={text} 
-      conversationId={ConverationId}
-      
-      
-      
-      />
+      <ChatBuble text={text} conversationId={ConverationId} />
     </View>
   );
 };
@@ -44,7 +40,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#241E24",
-
   },
   topBar: {
     paddingTop: 20,
