@@ -1,15 +1,12 @@
-import React, { useRef, useState } from "react";
-import {
-  View,
-  ViewStyle,
-  Image,
-  ImageStyle,
-  Text,
-  TextStyle,
-} from "react-native";
+import React, { useEffect, useRef, useState } from "react";
+import { View, ViewStyle, Image, ImageStyle, TextStyle } from "react-native";
 import DeckSwiper from "react-native-deck-swiper";
 import { IconButton } from "./IconButton";
 import { SuperButton } from "./SuperButton";
+import { userList } from "../api/user.api";
+import { User } from "../types";
+import { useUser } from "../utils/user-hook";
+import { Text } from "react-native-paper";
 
 interface Props {
   esa?: string;
@@ -17,27 +14,37 @@ interface Props {
 
 export const Swaiper = (props: Props) => {
   const swiperRef = useRef<DeckSwiper<any>>(null);
+  const curentUser = useUser();
+  const [users, setUsers] = useState<User[] | null>(null);
+  const [matchList, setMatchList] = useState<User[]>([]);
 
-  const data = [
-    { id: 1, image: require("../assets/imagines/download.png") },
-    { id: 2, image: require("../assets/imagines/essa.jpg") },
-    {
-      id: 3,
-      image: require("../assets/imagines/123436278_351097649321786_8786909236462977611_n(2).jpg"),
-    },
-
-    {
-      id: 4,
-      image: require("../assets/imagines/356963203_226368263125523_3845061014848158639_n.jpg"),
-    },
-  ];
-
-  const onSwipedRight = () => {
-    console.log("Match");
+  const fetchUserList = async () => {
+    const response = await userList();
+    console.log("User list", response);
+    setUsers(
+      response
+      // .filter((user) => curentUser.user.id !== user.id)
+    );
   };
+
+  useEffect(() => {
+    fetchUserList();
+  }, []);
+
+  const onSwipedRight = (index) => {
+    console.log("Match");
+    const matchedUser = users[index];
+    setMatchList((prevMatchList) => [...prevMatchList, matchedUser]);
+    console.log(matchList);
+  };
+
   const onSwipedLeft = () => {
     console.log("Discard");
   };
+
+  if (users === null) {
+    return <Text>loading</Text>;
+  }
 
   return (
     <View style={styles.container}>
@@ -45,7 +52,7 @@ export const Swaiper = (props: Props) => {
         infinite
         ref={swiperRef}
         backgroundColor="transparent"
-        cards={data}
+        cards={users}
         swipeAnimationDuration={155}
         cardStyle={{ height: "100%" }}
         keyExtractor={(card) => card.id}
@@ -53,9 +60,14 @@ export const Swaiper = (props: Props) => {
         stackSeparation={0}
         disableTopSwipe
         disableBottomSwipe
-        renderCard={(card) => (
-          <View style={styles.card} key={card.id}>
-            <Image source={card.image} style={styles.image} />
+        renderCard={(user) => (
+          <View style={styles.card} key={user.id}>
+            <Image source={{ uri: user.avatar_url }} style={styles.image} />
+            <View style={styles.overlay}>
+              <Text variant="displayMedium" style={styles.cardText}>
+                {user.name}
+              </Text>
+            </View>
             <View style={styles.overlay}></View>
           </View>
         )}
@@ -98,16 +110,25 @@ const styles: {
   overlay: {
     position: "absolute",
     top: 0,
-    maxHeight: "100%",
     left: 0,
     right: 0,
     bottom: 0,
+    marginLeft: 20,
+    marginBottom: 60,
     justifyContent: "flex-end",
-    alignItems: "center",
+    alignItems: "flex-start",
     maxWidth: "100%",
+    width: "100%",
   },
   cardText: {
     color: "white",
+    fontFamily: "inter-bold",
+    fontWeight: "bold",
+    textAlign: "center",
+    textShadowColor: "rgba(0, 0, 0, 0.5)",
+    textShadowOffset: { width: -1, height: 1 },
+    textShadowRadius: 10,
+    backgroundColor: "Blue",
   },
 };
 
