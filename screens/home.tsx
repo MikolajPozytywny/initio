@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { StyleSheet, View, Text } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { LinearGradient } from "expo-linear-gradient";
@@ -12,6 +12,8 @@ import { BottomBar } from "../components/BottomBar";
 import { SwaiperBottomBar } from "../components/SwaiperBottomBar";
 import { Slider1 } from "../components/Slider";
 import { SwaiperTopBar } from "../components/SwaiperTopBar";
+import { userList } from "../api/user.api";
+import { User } from "../types";
 
 const HomeScreen = () => {
   const navigation = useNavigation();
@@ -31,11 +33,23 @@ const HomeScreen = () => {
     navigation.navigate("Chat" as never);
   };
 
+  const [users, setUsers] = useState<User[] | null>(null);
+
+  const fetchUserList = async () => {
+    const response = await userList();
+    console.log("User list", response);
+    setUsers(response);
+  };
+
+  useEffect(() => {
+    fetchUserList();
+  }, []);
 
   const LogOut = async () => {
     await removeStoreItem("user");
     navigateToLogin();
   };
+  console.log("User list", users);
 
   return (
     <>

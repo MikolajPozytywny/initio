@@ -12,3 +12,7 @@ export const userInfo = async (id: string) => {
     })
   ).data as User;
 };
+
+export const userList = async () => {
+  return (await httpsCallable(functions, "userList")({})).data as User[];
+};

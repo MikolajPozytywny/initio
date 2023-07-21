@@ -12,10 +12,20 @@ import { auth } from "../fireBaseConfig";
 import { userInfo } from "../api/user.api";
 import { Allert } from "../components/Allert";
 
+enum LoginError {
+  "UNKNOWN_ERROR" = 1,
+  "NETWORK_ERROR" = 3,
+}
+
+const LoginErrorMessages = Object.freeze<Record<LoginError, string>>({
+  1: "Unknown error occurred",
+  3: "Check your internet connection",
+});
+
 const LoginScreen = () => {
   const navigation = useNavigation();
 
-  const [mrunio, setMrunio] = useState(0);
+  const [errorMsg, setErrorMsg] = useState<LoginError | null>(null);
   const [progress, setProgress] = useState(0);
   const [submitting, setSubmitting] = useState(false);
 
@@ -28,13 +38,14 @@ const LoginScreen = () => {
   };
 
   const onSubmit = async (email: string, password: string) => {
+    setProgress(0);
+
     try {
       setSubmitting(true); // Start form submitting
       setProgress(0.25);
       const response = await signInWithEmailAndPassword(auth, email, password);
 
       console.log("Successfuly logged in", response.user.uid);
-
       const user = await userInfo(response.user.uid);
 
       console.log("User info", user);
@@ -43,14 +54,16 @@ const LoginScreen = () => {
       navigateToHome();
       setProgress(0.5);
     } catch (err) {
+      console.error(err);
+
       if (err.code === "auth/network-request-failed") {
-        setMrunio(3); // Brak połączenia z serwerem
+        setErrorMsg(LoginError.NETWORK_ERROR); // Brak połączenia z serwerem
       } else {
-        setMrunio(1); // Inny błąd
+        setErrorMsg(LoginError.UNKNOWN_ERROR); // Inny błąd
       }
 
       setTimeout(() => {
-        setMrunio(0);
+        setErrorMsg(null);
       }, 5000);
     } finally {
       setProgress(1);
@@ -71,10 +84,8 @@ const LoginScreen = () => {
 
         <View style={styles.loginContainer}>
           <LoginForm onSubmit={onSubmit} submitting={submitting} />
-          {mrunio === 1 && <Allert Allart={"nie poprawne dane logowania "} />}
-          {mrunio === 3 && (
-            <Allert Allart={"problem z poleczeniem z serwerem"} />
-          )}
+
+          {errorMsg ? <Allert Allart={LoginErrorMessages[errorMsg]} /> : null}
         </View>
 
         <View style={{ marginVertical: 20 }}>
