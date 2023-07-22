@@ -12,7 +12,7 @@ import { BottomBar } from "../components/BottomBar";
 import { SwaiperBottomBar } from "../components/SwaiperBottomBar";
 import { Slider1 } from "../components/Slider";
 import { SwaiperTopBar } from "../components/SwaiperTopBar";
-import { userList } from "../api/user.api";
+import { userList } from "../api/api";
 import { User } from "../types";
 
 const HomeScreen = () => {

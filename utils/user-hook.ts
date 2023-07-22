@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useAsyncStorage } from "@react-native-async-storage/async-storage";
 import { User } from "../types";
-import { userInfo } from "../api/user.api";
+import { userInfo } from "../api/api";
 
 /**
  * Custom React hook that returns the user data.

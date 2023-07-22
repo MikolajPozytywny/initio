@@ -9,7 +9,7 @@ import { setStoreItem } from "../utils/async-store";
 import { Button, MD3Colors, ProgressBar, TextInput } from "react-native-paper";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../fireBaseConfig";
-import { userInfo } from "../api/user.api";
+import { userInfo } from "../api/api";
 import { Allert } from "../components/Allert";
 
 enum LoginError {

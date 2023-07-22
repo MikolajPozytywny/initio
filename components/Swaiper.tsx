@@ -3,10 +3,11 @@ import { View, ViewStyle, Image, ImageStyle, TextStyle } from "react-native";
 import DeckSwiper from "react-native-deck-swiper";
 import { IconButton } from "./IconButton";
 import { SuperButton } from "./SuperButton";
-import { userList } from "../api/user.api";
+import { userList, matchesCheck, matchesCreate } from "../api/api";
 import { User } from "../types";
 import { useUser } from "../utils/user-hook";
 import { Text } from "react-native-paper";
+import { auth } from "../fireBaseConfig";
 
 interface Props {
   esa?: string;
@@ -14,28 +15,47 @@ interface Props {
 
 export const Swaiper = (props: Props) => {
   const swiperRef = useRef<DeckSwiper<any>>(null);
-  const curentUser = useUser();
   const [users, setUsers] = useState<User[] | null>(null);
-  const [matchList, setMatchList] = useState<User[]>([]);
 
   const fetchUserList = async () => {
     const response = await userList();
     console.log("User list", response);
     setUsers(
-      response
-      // .filter((user) => curentUser.user.id !== user.id)
+      response?.filter((user) => {
+        return auth.currentUser?.uid !== user?.id;
+      })
     );
   };
 
+  const fetchMatchCheck = async (targetId) => {
+    // Check if 'users' is not empty before proceeding
+    if (users && users.length > 0) {
+      const response = await matchesCheck(targetId);
+      console.log("matches-check", response.matched);
+      if (response.matched) {
+        console.log("Matched");
+        //todo: add success message
+      } else {
+        console.log("Not Matched");
+        await CreateMatch(targetId);
+      }
+    }
+  };
   useEffect(() => {
-    fetchUserList();
-  }, []);
+    if (auth.currentUser?.uid) fetchUserList();
+  }, [auth.currentUser?.uid]);
 
-  const onSwipedRight = (index) => {
+  // useEffect(() => {
+  //   fetchMatchCheck();
+  // }, []);
+  const CreateMatch = async (targetId: string) => {
+    const response = await matchesCreate(targetId);
+    console.log("matches-check", response);
+  };
+
+  const onSwipedRight = (userIndex: number) => {
     console.log("Match");
-    const matchedUser = users[index];
-    setMatchList((prevMatchList) => [...prevMatchList, matchedUser]);
-    console.log(matchList);
+    fetchMatchCheck(users[userIndex]?.id);
   };
 
   const onSwipedLeft = () => {
