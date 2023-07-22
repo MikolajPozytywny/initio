@@ -19,10 +19,14 @@ export const Swaiper = (props: Props) => {
 
   const fetchUserList = async () => {
     const response = await userList();
-    setUsers(
-      response
-      // .filter((user) => curentUser.user.id !== user.id)
+
+    // Assuming the current user's ID is available as curentUser.user.id
+    // Filter out the current user's account from the fetched user list
+    const filteredUsers = response.filter(
+      (user) => curentUser.user.id !== user.id
     );
+
+    setUsers(filteredUsers);
   };
 
   useEffect(() => {
