@@ -19,7 +19,6 @@ export const Swaiper = (props: Props) => {
 
   const fetchUserList = async () => {
     const response = await userList();
-    console.log("User list", response);
     setUsers(
       response
       // .filter((user) => curentUser.user.id !== user.id)
