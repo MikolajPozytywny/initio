@@ -6,25 +6,21 @@ import { TopBar } from "../components/TopBar";
 import { user2, user, user3 } from "../utils/Mocks/Mock_1";
 
 interface ChatLobbyProps {
-onPress: () => void;
-
+  onPress: () => void;
 }
 
 const ChatLobbyScreen = () => {
   const navigation = useNavigation();
 
   // Handle chat item press
- 
- 
+
   return (
     <View style={Styles.container}>
       <View style={Styles.topBar}>
         <TopBar />
       </View>
       <View style={Styles.chat}>
-        <NewChat user={user}   conversationId="abc" />
-        <NewChat user={user2}   conversationId="abc2" />
-        <NewChat user={user3}  conversationId="abc" />
+        <NewChat user={user} conversationId="abc" />
       </View>
     </View>
   );

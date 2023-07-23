@@ -39,6 +39,7 @@ export const Swaiper = (props: Props) => {
         console.log("Not Matched");
         await CreateMatch(targetId);
       }
+      console.log(users[0]?.contacts);
     }
   };
   useEffect(() => {
@@ -72,20 +73,20 @@ export const Swaiper = (props: Props) => {
         infinite
         ref={swiperRef}
         backgroundColor="transparent"
-        cards={users}
+        cards={users || []}
         swipeAnimationDuration={155}
         cardStyle={{ height: "100%" }}
-        keyExtractor={(card) => card.id}
+        keyExtractor={(card) => card?.id}
         cardVerticalMargin={85}
         stackSeparation={0}
         disableTopSwipe
         disableBottomSwipe
         renderCard={(user) => (
-          <View style={styles.card} key={user.id}>
-            <Image source={{ uri: user.avatar_url }} style={styles.image} />
+          <View style={styles.card} key={user?.id}>
+            <Image source={{ uri: user?.avatar_url }} style={styles.image} />
             <View style={styles.overlay}>
               <Text variant="displayMedium" style={styles.cardText}>
-                {user.name}
+                {user?.name}
               </Text>
             </View>
             <View style={styles.overlay}></View>
