@@ -2,35 +2,39 @@ import React from "react";
 import { StyleSheet, View, Text, Image, Pressable } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { messages } from "../utils/Mocks/Mock_1";
+import { User } from "firebase/auth";
 
 interface ChatLobbyProps {
-  user: {
-    id: string;
-    name: string;
-    avatarUrl: string;
-  };
-  conversationId: string;
-
+  id: string;
+  name: string;
+  avatarUrl: any;
+  conversationId: any;
 }
 
-export const NewChat = ({ user, conversationId }: ChatLobbyProps) => {
+export const NewChat = ({
+  id,
+  name,
+  avatarUrl,
+  conversationId,
+}: ChatLobbyProps) => {
   const navigation = useNavigation();
-
-
+  console.log("pedal", id, name, avatarUrl, conversationId);
   const navigateToProfileChat = () => {
     //@ts-ignore
-    navigation.navigate("Chat" as never , { ConversationId: conversationId });
+    navigation.navigate("Chat" as never, {
+      ConversationId: conversationId,
+      targetUser: id,
+      targetUserAvatar: avatarUrl,
+    });
     console.log("navigateToProfileChat");
   };
- 
-
   return (
     <Pressable onPress={navigateToProfileChat} style={Styles.container}>
-      <Image source={{ uri: user.avatarUrl }} style={Styles.avatar} />
-      <Text style={Styles.Text}>{user.name}</Text>
+      <Image source={{ uri: avatarUrl }} style={Styles.avatar} />
+      <Text style={Styles.Text}>{name}</Text>
     </Pressable>
   );
-}
+};
 
 const Styles = StyleSheet.create({
   container: {

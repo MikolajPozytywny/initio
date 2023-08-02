@@ -7,6 +7,7 @@ import { SuperButton } from "../components/SuperButton";
 
 import { TopBar } from "../components/TopBar";
 import { ProgressBar } from "react-native-paper";
+import { userInfo } from "../api/api";
 
 interface ChatScreenProps {
   route: any; // Route prop from react-navigation
@@ -14,24 +15,27 @@ interface ChatScreenProps {
 
 const ChatScreen = ({ route }: ChatScreenProps) => {
   const navigation = useNavigation();
+  const Route = useRoute();
+  const ConverationId = route.params?.ConversationId;
+  const targetUser = route.params?.targetUser;
+  const targetUserAvatar = route.params?.targetUserAvatar;
 
-  const [text, setText] = useState("");
+  console.log("The user you are chatting with.", ConverationId, targetUser);
 
-  // Get the selected user from route params
-  const { ConverationId } = route.params;
-
-  // const Route = useRoute();
-
-  // console.log(Route.params);
   console.log(route.params);
-
+  const [text, setText] = useState("");
   return (
     <View style={styles.container}>
       <View style={styles.topBar}>
         <TopBar />
       </View>
 
-      <ChatBuble text={text} conversationId={ConverationId} />
+      <ChatBuble
+        text={text}
+        conversationId={ConverationId}
+        avatar={targetUser}
+        avatarr={targetUserAvatar}
+      />
     </View>
   );
 };

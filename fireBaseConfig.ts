@@ -3,8 +3,10 @@ import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getAuth, connectAuthEmulator } from "firebase/auth";
 import { getFunctions, connectFunctionsEmulator } from "firebase/functions";
+import { getDatabase } from "firebase/database"; // Add this line for the Realtime Database
 
-const isLocal = process.env.NODE_ENV === "development";
+const isLocal = false;
+// = process.env.NODE_ENV === "development";
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
@@ -27,6 +29,7 @@ const app = initializeApp(firebaseConfig);
 export const analytics = getAnalytics(app);
 export const auth = getAuth(app);
 export const functions = getFunctions(app);
+export const database = getDatabase(app);
 
 // Connect to the Firebase Emulator Suite for functions
 if (isLocal) {
