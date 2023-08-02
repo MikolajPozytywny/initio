@@ -1,40 +1,45 @@
 import { httpsCallable } from "firebase/functions";
 import { functions } from "../fireBaseConfig";
 import { User } from "../types";
+import { user } from "../utils/Mocks/Mock_1";
 
-export const userInfo = async (id: string) => {
-  return (
-    await httpsCallable(
-      functions,
-      "users-info"
-    )({
-      id,
-    })
-  ).data as User;
+// Funkcja pomocnicza do wywoływania zdalnych funkcji
+async function callRemoteFunction<T>(
+  functionName: string,
+  data: any
+): Promise<T> {
+  return (await httpsCallable(functions, functionName)(data)).data as T;
+}
+
+export const userInfo = async (id: string): Promise<User> => {
+  return callRemoteFunction<User>("users-info", { id });
 };
 
-export const userList = async () => {
-  return (await httpsCallable(functions, "users-list")({})).data as User[];
+export const userList = async (): Promise<User[]> => {
+  return callRemoteFunction<User[]>("users-list", {});
 };
 
-export const matchesCheck = async (targetId: string) => {
-  return (
-    await httpsCallable(
-      functions,
-      "matches-check"
-    )({
-      targetId,
-    })
-  ).data as { matched: boolean };
+export const matchesCheck = async (
+  targetId: string
+): Promise<{ matched: boolean }> => {
+  return callRemoteFunction<{ matched: boolean }>("matches-check", {
+    targetId,
+  });
 };
 
-export const matchesCreate = async (targetId: string) => {
-  return (
-    await httpsCallable(
-      functions,
-      "matches-create"
-    )({
-      targetId,
-    })
-  ).data as { id: string };
+export const matchesCreate = async (
+  targetId: string
+): Promise<{ id: string }> => {
+  return callRemoteFunction<{ id: string }>("matches-create", { targetId });
 };
+
+export const userUpdate = async (
+  id: string,
+  name: string
+): Promise<{ id: string }> =>
+  callRemoteFunction<{
+    id: string;
+  }>("users-update", {
+    id,
+    name,
+  });

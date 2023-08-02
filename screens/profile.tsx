@@ -5,6 +5,7 @@ import { SuperButton } from "../components/SuperButton";
 import { IconButton } from "../components/IconButton";
 import { SettingsForm } from "../components/settingsForm";
 import { Logo } from "../components/Logo";
+import { ProfileForm } from "../components/ProfileForm";
 
 interface Props {}
 
@@ -18,21 +19,16 @@ const ProfileScreen = () => {
   return (
     <View style={styles.container}>
       <View style={styles.TopBar}>
-            <IconButton
-        size={20}
-        icon="back"
-        iconButtonColor="white"
-        isAntDesignActive={true}
-        onPress={navigateToBack}
-      />
+        <IconButton
+          size={20}
+          icon="back"
+          iconButtonColor="white"
+          isAntDesignActive={true}
+          onPress={navigateToBack}
+        />
       </View>
-        <Logo />
-      <View style={styles.settings2}>
-         <View style={styles.settings1}>
-          <Text style={styles.text}>Profile Name</Text>
-      </View>
-
-      </View>
+      <Logo />
+      <ProfileForm />
     </View>
   );
 };
@@ -45,10 +41,8 @@ const styles = StyleSheet.create({
     borderColor: "Dark", // Border colorset
     elevation: 0, // Decreased elevation
     backgroundColor: "#241E24",
-    
   },
   settings1: {
-
     borderColor: "Dark", // Border color
     elevation: 0, // Decreased elevation
     backgroundColor: "#454444",
@@ -77,7 +71,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 5,
     paddingVertical: 5,
     borderRadius: 20,
-    
   },
   TopBar: {
     justifyContent: "flex-start",
