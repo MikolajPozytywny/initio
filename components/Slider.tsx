@@ -7,6 +7,8 @@ import {
   Animated,
 } from "react-native";
 import { IconButton } from "react-native-paper";
+import { useUser } from "../utils/user-hook";
+import { User } from "../types";
 
 interface SlideUpComponentProps {
   onSlideUp: () => void; // Funkcja wywoływana po wysunięciu komponentu
@@ -14,6 +16,7 @@ interface SlideUpComponentProps {
 
 export const Slider1: React.FC<SlideUpComponentProps> = ({ onSlideUp }) => {
   const [slideAnim] = useState(new Animated.Value(0)); // Początkowa wartość animacji
+  const { user, loading } = useUser();
 
   const [mrunio, setMrunio] = useState(1);
   const handleSlideUp = () => {
@@ -62,20 +65,12 @@ export const Slider1: React.FC<SlideUpComponentProps> = ({ onSlideUp }) => {
               <IconButton
                 icon="down"
                 iconColor="white"
-                
                 size={30}
                 onPress={handleSlideUp}
-            
               />
             )}
           </View>
-          <Text style={styles.slideUpText}>
-            GUdsadasdasdasdasddssda13231231231231231231231231231231231231231231231231312213212323123123das
-            GUdsadasdasdasdasddssda13231231231231231231231231231231231231231231231231312213212323123123das
-            GUdsadasdasdasdasddssda13231231231231231231231231231231231231231231231231312213212323123123das
-            GUdsadasdasdasdasddssda13231231231231231231231231231231231231231231231231312213212323123123das
-            GUdsadasdasdasdasddssda13231231231231231231231231231231231231231231231231312213212323123123das
-          </Text>
+          <Text style={styles.slideUpText}>{user?.description} aaaalele</Text>
         </TouchableOpacity>
       </Animated.View>
     </TouchableOpacity>

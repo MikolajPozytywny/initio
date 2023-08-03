@@ -16,7 +16,7 @@ interface Props {
 export const Swaiper = (props: Props) => {
   const swiperRef = useRef<DeckSwiper<any>>(null);
   const [users, setUsers] = useState<User[] | null>(null);
-  
+
   const fetchUserList = async () => {
     const response = await userList();
     console.log("User list", response);

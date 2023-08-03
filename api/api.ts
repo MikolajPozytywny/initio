@@ -35,11 +35,13 @@ export const matchesCreate = async (
 
 export const userUpdate = async (
   id: string,
-  name: string
+  name: string,
+  description: string
 ): Promise<{ id: string }> =>
   callRemoteFunction<{
     id: string;
   }>("users-update", {
     id,
     name,
+    description,
   });
