@@ -7,20 +7,23 @@ import {
   Animated,
 } from "react-native";
 import { IconButton } from "react-native-paper";
-import { useUser } from "../utils/user-hook";
-import { User } from "../types";
 
 interface SlideUpComponentProps {
   onSlideUp: () => void; // Funkcja wywoływana po wysunięciu komponentu
+  name: string;
 }
 
-export const Slider1: React.FC<SlideUpComponentProps> = ({ onSlideUp }) => {
+export const Slider1: React.FC<SlideUpComponentProps> = ({
+  onSlideUp,
+  name,
+}) => {
   const [slideAnim] = useState(new Animated.Value(0)); // Początkowa wartość animacji
-  const { user, loading } = useUser();
 
   const [mrunio, setMrunio] = useState(1);
+
   const handleSlideUp = () => {
     if (mrunio == 1) {
+      console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", name);
       Animated.timing(slideAnim, {
         toValue: 1,
         duration: 300,
@@ -38,6 +41,7 @@ export const Slider1: React.FC<SlideUpComponentProps> = ({ onSlideUp }) => {
       setMrunio(1);
     });
   };
+  console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", name);
 
   return (
     <TouchableOpacity style={styles.container}>
@@ -70,7 +74,7 @@ export const Slider1: React.FC<SlideUpComponentProps> = ({ onSlideUp }) => {
               />
             )}
           </View>
-          <Text style={styles.slideUpText}>{user?.description} aaaalele</Text>
+          <Text style={styles.slideUpText}>{name}</Text>
         </TouchableOpacity>
       </Animated.View>
     </TouchableOpacity>

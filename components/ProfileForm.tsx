@@ -16,6 +16,7 @@ export const ProfileForm = (props: Props) => {
   const [textDescryption, setTextDescryption] = useState("");
   const [description, setDescription] = useState(""); // Add a new state variable to hold the user's name
   const [edittDescription, setEdittDescription] = useState(true);
+
   useEffect(() => {
     if (user) {
       // Set the initial name in the state when 'user' is available
@@ -47,6 +48,7 @@ export const ProfileForm = (props: Props) => {
     try {
       const id = user.id;
       console.log("id: ", id);
+      console.log("name: ", user.name);
       const name = text;
       console.log("Before userUpdate call");
       const response = await userUpdate(id, name, description);
@@ -76,7 +78,6 @@ export const ProfileForm = (props: Props) => {
       console.log("Error caught: ", error);
     }
   };
-
   return (
     <View style={styles.container}>
       <View style={styles.settings2}>

@@ -1,11 +1,14 @@
 import React from "react";
-import { StyleSheet, View, Text } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { SuperButton } from "../components/SuperButton";
 import { IconButton } from "../components/IconButton";
 import { SettingsForm } from "../components/settingsForm";
 import { Logo } from "../components/Logo";
 import { ProfileForm } from "../components/ProfileForm";
+import { Avatar } from "react-native-paper";
+import { StyleSheet, View, Text, Image, Pressable } from "react-native";
+import { useUser } from "../utils/user-hook";
+import { set } from "firebase/database";
 
 interface Props {}
 
@@ -15,6 +18,8 @@ const ProfileScreen = () => {
   const navigateToBack = () => {
     navigation.goBack();
   };
+  const { user, loading } = useUser();
+  console.log("userrrrr: ", user);
 
   return (
     <View style={styles.container}>
@@ -27,7 +32,7 @@ const ProfileScreen = () => {
           onPress={navigateToBack}
         />
       </View>
-      <Logo />
+
       <ProfileForm />
     </View>
   );

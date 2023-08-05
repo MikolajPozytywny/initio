@@ -18,7 +18,6 @@ export const NewChat = ({
   conversationId,
 }: ChatLobbyProps) => {
   const navigation = useNavigation();
-  console.log("pedal", id, name, avatarUrl, conversationId);
   const navigateToProfileChat = () => {
     //@ts-ignore
     navigation.navigate("Chat" as never, {

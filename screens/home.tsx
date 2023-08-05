@@ -15,9 +15,14 @@ import { SwaiperTopBar } from "../components/SwaiperTopBar";
 import { userList } from "../api/api";
 import { User } from "../types";
 
-const HomeScreen = () => {
-  const navigation = useNavigation();
+interface ChatHomeProps {
+  route: any; // Route prop from react-navigation
+}
 
+const HomeScreen = ({ route }: ChatHomeProps) => {
+  const navigation = useNavigation();
+  const description = route.params?.description;
+  console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", description);
   const navigateToLogin = () => {
     navigation.navigate("Login" as never);
   };
@@ -49,8 +54,7 @@ const HomeScreen = () => {
     await removeStoreItem("user");
     navigateToLogin();
   };
-  console.log("User list", users);
-
+  console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", description);
   return (
     <>
       <View style={styles.container}>
@@ -61,7 +65,7 @@ const HomeScreen = () => {
             <SwaiperBottomBar />
           </View>
         </View>
-        <Slider1 onSlideUp={console.log} />
+        <Slider1 onSlideUp={console.log} name={description} />
         <View style={styles.superButtonContainer}>
           <BottomBar />
         </View>

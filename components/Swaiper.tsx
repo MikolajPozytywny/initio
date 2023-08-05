@@ -8,6 +8,7 @@ import { User } from "../types";
 import { useUser } from "../utils/user-hook";
 import { Text } from "react-native-paper";
 import { auth } from "../fireBaseConfig";
+import { useNavigation } from "@react-navigation/native";
 
 interface Props {
   esa?: string;
@@ -16,6 +17,7 @@ interface Props {
 export const Swaiper = (props: Props) => {
   const swiperRef = useRef<DeckSwiper<any>>(null);
   const [users, setUsers] = useState<User[] | null>(null);
+  const navigation = useNavigation();
 
   const fetchUserList = async () => {
     const response = await userList();
@@ -26,6 +28,9 @@ export const Swaiper = (props: Props) => {
       })
     );
   };
+  useEffect(() => {
+    if (auth.currentUser?.uid) fetchUserList();
+  }, [auth.currentUser?.uid]);
 
   const fetchMatchCheck = async (targetId) => {
     // Check if 'users' is not empty before proceeding
@@ -42,13 +47,7 @@ export const Swaiper = (props: Props) => {
       console.log(users[0]?.contacts);
     }
   };
-  useEffect(() => {
-    if (auth.currentUser?.uid) fetchUserList();
-  }, [auth.currentUser?.uid]);
 
-  // useEffect(() => {
-  //   fetchMatchCheck();
-  // }, []);
   const CreateMatch = async (targetId: string) => {
     const response = await matchesCreate(targetId);
     console.log("matches-check", response);
@@ -56,11 +55,22 @@ export const Swaiper = (props: Props) => {
 
   const onSwipedRight = (userIndex: number) => {
     console.log("Match");
-    fetchMatchCheck(users[userIndex]?.id);
+    fetchMatchCheck(users[userIndex + 1]?.id);
+    //@ts-ignore
+    navigation.navigate("Home" as never, {
+      description: users[userIndex]?.description, // Change this line to use users[userIndex]?.name
+    });
+    console.log("navigateToProfileChat");
   };
 
-  const onSwipedLeft = () => {
+  const onSwipedLeft = (userIndex: number) => {
     console.log("Discard");
+    fetchMatchCheck(users[userIndex]?.id);
+    //@ts-ignore
+    navigation.navigate("Home" as never, {
+      description: users[userIndex + 1]?.description, // Change this line to use users[userIndex]?.name
+    });
+    console.log("navigateToProfileChat");
   };
 
   if (users === null) {
