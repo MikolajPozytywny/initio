@@ -18,8 +18,6 @@ const ProfileScreen = () => {
   const navigateToBack = () => {
     navigation.goBack();
   };
-  const { user, loading } = useUser();
-  console.log("userrrrr: ", user);
 
   return (
     <View style={styles.container}>

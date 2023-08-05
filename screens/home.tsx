@@ -58,14 +58,12 @@ const HomeScreen = ({ route }: ChatHomeProps) => {
   return (
     <>
       <View style={styles.container}>
-        <SwaiperTopBar />
+        <View style={styles.topBarContainer}>
+          <SwaiperTopBar />
+        </View>
         <View style={styles.swaiperContainer}>
           <Swaiper />
-          <View style={styles.swaiperBottomBarConteiner}>
-            <SwaiperBottomBar />
-          </View>
         </View>
-        <Slider1 onSlideUp={console.log} name={description} />
         <View style={styles.superButtonContainer}>
           <BottomBar />
         </View>
@@ -92,7 +90,7 @@ const styles = StyleSheet.create({
     Width: "110%",
     borderRadius: 60,
     alignSelf: "center", // Align the Swaiper to the top
-    marginBottom: 20,
+    paddingBottom: 80,
   },
   superButtonContainer: {
     maxHeight: "100%", // Adjust the height as needed
@@ -106,13 +104,10 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   topBarContainer: {
-    flexDirection: "row", // Przyciski zostaną ułożone w jednym rzędzie
-    justifyContent: "space-between", // Odległość między przyciskami będzie równa
+    justifyContent: "center", // Odległość między przyciskami będzie równa
     alignItems: "center", // Przyciski będą wyśrodkowane w pionie
     width: "100%",
-
-    paddingHorizontal: 5,
-    paddingVertical: 5,
+    maxWidth: "100%",
   },
 });
 

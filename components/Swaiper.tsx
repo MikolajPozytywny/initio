@@ -9,6 +9,9 @@ import { useUser } from "../utils/user-hook";
 import { Text } from "react-native-paper";
 import { auth } from "../fireBaseConfig";
 import { useNavigation } from "@react-navigation/native";
+import { Slider1 } from "./Slider";
+import { set } from "firebase/database";
+import { SwaiperBottomBar } from "./SwaiperBottomBar";
 
 interface Props {
   esa?: string;
@@ -18,7 +21,7 @@ export const Swaiper = (props: Props) => {
   const swiperRef = useRef<DeckSwiper<any>>(null);
   const [users, setUsers] = useState<User[] | null>(null);
   const navigation = useNavigation();
-
+  const [dupa, setDupa] = useState<number>(0);
   const fetchUserList = async () => {
     const response = await userList();
     console.log("User list", response);
@@ -47,7 +50,6 @@ export const Swaiper = (props: Props) => {
       console.log(users[0]?.contacts);
     }
   };
-
   const CreateMatch = async (targetId: string) => {
     const response = await matchesCreate(targetId);
     console.log("matches-check", response);
@@ -56,21 +58,15 @@ export const Swaiper = (props: Props) => {
   const onSwipedRight = (userIndex: number) => {
     console.log("Match");
     fetchMatchCheck(users[userIndex + 1]?.id);
-    //@ts-ignore
-    navigation.navigate("Home" as never, {
-      description: users[userIndex]?.description, // Change this line to use users[userIndex]?.name
-    });
-    console.log("navigateToProfileChat");
+
+    setDupa(dupa + 1);
   };
 
   const onSwipedLeft = (userIndex: number) => {
     console.log("Discard");
     fetchMatchCheck(users[userIndex]?.id);
-    //@ts-ignore
-    navigation.navigate("Home" as never, {
-      description: users[userIndex + 1]?.description, // Change this line to use users[userIndex]?.name
-    });
-    console.log("navigateToProfileChat");
+
+    setDupa(dupa + 1);
   };
 
   if (users === null) {
@@ -105,6 +101,15 @@ export const Swaiper = (props: Props) => {
         onSwipedRight={onSwipedRight}
         onSwipedLeft={onSwipedLeft}
       />
+      <View style={{ top: 515, left: 0 }}>
+        <SwaiperBottomBar />
+      </View>
+      <View style={styles.Slider}>
+        <Slider1
+          name={users[dupa]?.description || ""}
+          onSlideUp={console.log}
+        />
+      </View>
     </View>
   );
 };
@@ -115,11 +120,12 @@ const styles: {
   image: ImageStyle;
   overlay: ViewStyle;
   cardText: TextStyle;
+  Slider: ViewStyle;
 } = {
   container: {
     flex: 1,
-    justifyContent: "flex-start",
-    alignItems: "flex-start",
+    justifyContent: "center",
+    alignItems: "center",
   },
   card: {
     flex: 1,
@@ -127,7 +133,7 @@ const styles: {
     elevation: 4,
     borderRadius: 50,
     margin: 10,
-    right: 205,
+    right: 25,
     top: -85,
   },
   image: {
@@ -160,6 +166,13 @@ const styles: {
     textShadowOffset: { width: -1, height: 1 },
     textShadowRadius: 10,
     backgroundColor: "Blue",
+  },
+  Slider: {
+    flex: 1,
+    top: 250,
+    width: "100%",
+    height: 100,
+    right: 180,
   },
 };
 

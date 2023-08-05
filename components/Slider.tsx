@@ -10,7 +10,7 @@ import { IconButton } from "react-native-paper";
 
 interface SlideUpComponentProps {
   onSlideUp: () => void; // Funkcja wywoływana po wysunięciu komponentu
-  name: string;
+  name?: string;
 }
 
 export const Slider1: React.FC<SlideUpComponentProps> = ({
@@ -67,7 +67,7 @@ export const Slider1: React.FC<SlideUpComponentProps> = ({
           <View style={[styles.blueBackground]}>
             {mrunio == 0 && (
               <IconButton
-                icon="down"
+                icon="arrow-down"
                 iconColor="white"
                 size={30}
                 onPress={handleSlideUp}
