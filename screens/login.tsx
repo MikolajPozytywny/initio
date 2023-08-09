@@ -93,6 +93,7 @@ const LoginScreen = () => {
             onPress={navigateTorRegister}
             mode="contained"
             disabled={submitting}
+            style={{ backgroundColor: "#454444" }}
           >
             Reggister
           </Button>

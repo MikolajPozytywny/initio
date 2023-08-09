@@ -16,6 +16,7 @@ import ChatScreen from "./screens/chat";
 import ChatLobby from "./screens/chatLobby";
 import ChatLobbyScreen from "./screens/chatLobby";
 import { theme } from "./theme";
+import EditProfileScreen from "./screens/editProfile";
 
 const Stack = createNativeStackNavigator();
 
@@ -50,6 +51,7 @@ export default function App() {
           <Stack.Screen name="Profile" component={ProfileScreen} />
           <Stack.Screen name="Chat" component={ChatScreen} />
           <Stack.Screen name="ChatLobby" component={ChatLobbyScreen} />
+          <Stack.Screen name="EditProfile" component={EditProfileScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </PaperProvider>

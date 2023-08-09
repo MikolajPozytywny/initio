@@ -76,7 +76,6 @@ export const Swaiper = (props: Props) => {
   return (
     <View style={styles.container}>
       <DeckSwiper
-        infinite
         ref={swiperRef}
         backgroundColor="transparent"
         cards={users || []}
@@ -84,9 +83,55 @@ export const Swaiper = (props: Props) => {
         cardStyle={{ height: "100%" }}
         keyExtractor={(card) => card?.id}
         cardVerticalMargin={85}
+        cardHorizontalMargin={20}
         stackSeparation={0}
         disableTopSwipe
         disableBottomSwipe
+        overlayLabels={{
+          left: {
+            title: "NOPE",
+            style: {
+              label: {
+                borderColor: "#E5000E",
+                borderRadius: 20,
+                color: "#E5000E",
+                borderWidth: 5,
+                fontSize: 75,
+                transform: [{ rotate: "45deg" }], // Obrót tekstu o 180 stopni
+              },
+              wrapper: {
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "flex-start",
+                marginTop: 10,
+                marginRight: 100,
+              },
+            },
+          },
+
+          right: {
+            title: "LIKE",
+            style: {
+              label: {
+                borderColor: "#22FC0D",
+                borderRadius: 20,
+                color: "#22FC0D",
+                borderWidth: 5,
+                fontSize: 75,
+                transform: [{ rotate: "-45deg" }], // Obrót tekstu o 180 stopni
+              },
+              wrapper: {
+                flexDirection: "column",
+                alignItems: "flex-start",
+                justifyContent: "flex-start",
+                marginTop: 10,
+                marginLeft: 10,
+              },
+            },
+          },
+        }}
+        animateOverlayLabelsOpacity
+        animateCardOpacity
         renderCard={(user) => (
           <View style={styles.card} key={user?.id}>
             <Image source={{ uri: user?.avatar_url }} style={styles.image} />
@@ -101,7 +146,7 @@ export const Swaiper = (props: Props) => {
         onSwipedRight={onSwipedRight}
         onSwipedLeft={onSwipedLeft}
       />
-      <View style={{ top: 515, left: 0 }}>
+      <View style={styles.bottomBar}>
         <SwaiperBottomBar />
       </View>
       <View style={styles.Slider}>
@@ -121,28 +166,28 @@ const styles: {
   overlay: ViewStyle;
   cardText: TextStyle;
   Slider: ViewStyle;
+  bottomBar: ViewStyle;
 } = {
   container: {
     flex: 1,
-    justifyContent: "center",
     alignItems: "center",
+    justifyContent: "center",
+    maxWidth: "100%",
   },
   card: {
-    flex: 1,
+    alignItems: "center",
     justifyContent: "center",
-    elevation: 4,
     borderRadius: 50,
     margin: 10,
-    right: 25,
+    right: 27,
     top: -85,
+    width: "95%",
   },
   image: {
-    flex: 1,
-    backgroundColor: "green",
+    backgroundColor: "transparent",
     borderRadius: 50,
-    maxHeight: "100%",
-    width: 400,
-    maxWidth: "100%",
+    height: "100%",
+    width: "100%",
   },
   overlay: {
     position: "absolute",
@@ -151,10 +196,9 @@ const styles: {
     right: 0,
     bottom: 0,
     marginLeft: 20,
-    marginBottom: 60,
+    marginBottom: 20,
     justifyContent: "flex-end",
     alignItems: "flex-start",
-    maxWidth: "100%",
     width: "100%",
   },
   cardText: {
@@ -168,11 +212,20 @@ const styles: {
     backgroundColor: "Blue",
   },
   Slider: {
-    flex: 1,
-    top: 250,
+    position: "absolute",
+    justifyContent: "flex-start",
+    left: 0,
+    bottom: -230,
+    maxWidth: "110%",
     width: "100%",
-    height: 100,
-    right: 180,
+    maxHeight: "100%",
+  },
+  bottomBar: {
+    alignItems: "center",
+    justifyContent: "center",
+    left: 0,
+    right: 0,
+    top: 295,
   },
 };
 

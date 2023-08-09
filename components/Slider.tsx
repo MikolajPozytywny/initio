@@ -5,6 +5,7 @@ import {
   Text,
   TouchableOpacity,
   Animated,
+  ScrollView,
 } from "react-native";
 import { IconButton } from "react-native-paper";
 
@@ -74,6 +75,7 @@ export const Slider1: React.FC<SlideUpComponentProps> = ({
               />
             )}
           </View>
+
           <Text style={styles.slideUpText}>{name}</Text>
         </TouchableOpacity>
       </Animated.View>
@@ -84,7 +86,7 @@ const styles = StyleSheet.create({
   container: {
     position: "absolute",
     bottom: -40,
-    width: "90%",
+    width: "100%",
     height: 200,
     justifyContent: "center",
     alignItems: "center",
@@ -107,8 +109,8 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     justifyContent: "flex-start",
     alignItems: "flex-start",
-    textAlign: "right",
     color: "#B8B8B8",
+    multiline: true,
   },
   blueBackground: {
     justifyContent: "flex-start",

@@ -36,7 +36,8 @@ export const matchesCreate = async (
 export const userUpdate = async (
   id: string,
   name: string,
-  description: string
+  description: string,
+  avatar_url: string
 ): Promise<{ id: string }> =>
   callRemoteFunction<{
     id: string;
@@ -44,4 +45,5 @@ export const userUpdate = async (
     id,
     name,
     description,
+    avatar_url,
   });

@@ -120,7 +120,11 @@ const ReggisterScreen = () => {
         {mrunio === 1 && <Allert Allart={allart} />}
       </View>
       <View style={{ marginVertical: 20 }}>
-        <Button onPress={navigateTorLogin} mode="contained">
+        <Button
+          onPress={navigateTorLogin}
+          style={{ backgroundColor: "#454444" }}
+          mode="contained"
+        >
           Login
         </Button>
       </View>

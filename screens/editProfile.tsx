@@ -9,18 +9,15 @@ import { Appbar, Avatar } from "react-native-paper";
 import { StyleSheet, View, Text, Image, Pressable } from "react-native";
 import { useUser } from "../utils/user-hook";
 import { set } from "firebase/database";
+import { EditProfileForm } from "../components/EditProfileForm";
 
 interface Props {}
 
-const ProfileScreen = () => {
+const EditProfileScreen = () => {
   const navigation = useNavigation();
 
   const navigateToBack = () => {
-    navigation.goBack();
-  };
-
-  const navigateToProfileChat = () => {
-    navigation.navigate("EditProfile" as never);
+    navigation.navigate("Profile" as never);
   };
 
   return (
@@ -32,14 +29,9 @@ const ProfileScreen = () => {
           onPress={navigateToBack}
         />
         <Appbar.Content title="Title" />
-        <Appbar.Action
-          icon="pencil"
-          color="white"
-          onPress={navigateToProfileChat}
-        />
       </Appbar.Header>
 
-      <ProfileForm />
+      <EditProfileForm />
     </View>
   );
 };
@@ -92,4 +84,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ProfileScreen;
+export default EditProfileScreen;

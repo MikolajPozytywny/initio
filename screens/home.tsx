@@ -83,24 +83,19 @@ const styles = StyleSheet.create({
   swaiperContainer: {
     backgroundColor: "#424242",
     alignItems: "center",
+    maxHeight: "70%", // Adjust the height as needed
+    maxWidth: "90%",
     paddingHorizontal: 5,
     top: -50,
     marginTop: 10,
-    maxHeight: "70%",
-    Width: "110%",
     borderRadius: 60,
     alignSelf: "center", // Align the Swaiper to the top
-    paddingBottom: 80,
+    paddingBottom: 60,
   },
   superButtonContainer: {
     maxHeight: "100%", // Adjust the height as needed
     alignItems: "center",
     alignSelf: "center", // Align the BottomBar to the bottom
-    marginBottom: 10,
-  },
-  swaiperBottomBarConteiner: {
-    alignItems: "center",
-    maxHeight: "100%",
     marginBottom: 10,
   },
   topBarContainer: {
