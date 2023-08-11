@@ -10,7 +10,6 @@ interface Props {}
 export const BottomBar = (props: Props) => {
   const navigation = useNavigation();
 
-
   const navigateToLogin = () => {
     navigation.navigate("Login" as never);
   };
@@ -27,7 +26,7 @@ export const BottomBar = (props: Props) => {
   return (
     <View style={styles.container}>
       <LinearGradient
-         colors={["#7536db", "#DB36A4"]}
+        colors={["#7536db", "#DB36A4"]}
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 0 }}
         style={styles.gradientContainer}
@@ -44,14 +43,12 @@ export const BottomBar = (props: Props) => {
             onPress={LogOut}
             icon="magnify"
             iconColor="white"
-     
           />
           <IconButton
             size={40}
             onPress={navigateToProfileChatLobby}
             icon="comment"
             iconColor="white"
-           
           />
         </View>
       </LinearGradient>

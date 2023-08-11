@@ -22,6 +22,7 @@ export const Swaiper = (props: Props) => {
   const [users, setUsers] = useState<User[] | null>(null);
   const navigation = useNavigation();
   const [dupa, setDupa] = useState<number>(0);
+  const [autoSwipeEnabled, setAutoSwipeEnabled] = useState(true);
   const fetchUserList = async () => {
     const response = await userList();
     console.log("User list", response);
@@ -73,6 +74,17 @@ export const Swaiper = (props: Props) => {
     return <Text>loading</Text>;
   }
 
+  const swipeLeftAutomatically = () => {
+    if (swiperRef.current) {
+      swiperRef.current.swipeLeft();
+    }
+  };
+
+  const swipeRightAutomatically = () => {
+    if (swiperRef.current) {
+      swiperRef.current.swipeRight();
+    }
+  };
   return (
     <View style={styles.container}>
       <DeckSwiper
@@ -147,7 +159,10 @@ export const Swaiper = (props: Props) => {
         onSwipedLeft={onSwipedLeft}
       />
       <View style={styles.bottomBar}>
-        <SwaiperBottomBar />
+        <SwaiperBottomBar
+          onLeftButtonPress={swipeLeftAutomatically}
+          onRightButtonPress={swipeRightAutomatically}
+        />
       </View>
       <View style={styles.Slider}>
         <Slider1

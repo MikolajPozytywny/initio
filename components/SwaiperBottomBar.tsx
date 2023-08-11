@@ -5,48 +5,44 @@ import { useNavigation } from "@react-navigation/native";
 import { removeStoreItem } from "../utils/async-store";
 import { LinearGradient } from "expo-linear-gradient";
 
-interface Props {}
+interface Props {
+  onLeftButtonPress: () => void;
+  onRightButtonPress: () => void;
+}
 
 export const SwaiperBottomBar = (props: Props) => {
   const navigation = useNavigation();
-
-  const [mrunio, setMrunio] = useState("heart-outline");
-
-  const clicked = async () => {
-    if (mrunio === "heart") {
-      setMrunio("heart-outline");
-      console.log("unlicket");
-      return;
-    }
-    setMrunio("heart");
-    console.log("Like");
-  };
 
   return (
     <View style={styles.container}>
       <View style={styles.iconContainer}>
         <IconButton
           size={40}
-          icon="head-outline"
-          onPress={clicked}
-          background={"#6B6B6B"}
-          iconColor="white"
+          onPress={props.onLeftButtonPress} // Call the function from the prop
+          icon="close"
+          animated={true}
+          iconColor="red"
+          mode="outlined"
+          containerColor="transparent"
+          rippleColor={"red"}
+          style={{ borderColor: "red" }}
         />
         <IconButton
           size={50}
           icon="star"
-          onPress={clicked}
           background={"#6B6B6B"}
           iconColor="white"
-
         />
         <IconButton
           size={40}
-          onPress={clicked}
-          icon={mrunio}
-          background={"#6B6B6B"}
+          onPress={props.onRightButtonPress}
+          icon="check"
           animated={true}
-          iconColor="white"
+          iconColor="green"
+          mode="outlined"
+          containerColor="transparent"
+          rippleColor={"green"}
+          style={{ borderColor: "green" }}
         />
       </View>
     </View>
