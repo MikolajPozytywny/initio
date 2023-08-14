@@ -4,6 +4,7 @@ import { Button, Text, TextInput } from "react-native-paper";
 import { userUpdate } from "../api/api";
 import { useUser } from "../utils/user-hook";
 import * as ImagePicker from "expo-image-picker";
+import { makeTranslations } from "../react-littera";
 
 export const EditProfileForm = () => {
   const { user } = useUser();
@@ -15,6 +16,8 @@ export const EditProfileForm = () => {
   const [textDescryption, setTextDescryption] = useState("");
   const [edittDescription, setEdittDescription] = useState(true);
   const [image, setImage] = useState(null);
+  const useTrans = makeTranslations({});
+  const translated = useTrans();
 
   useEffect(() => {
     if (user) {
@@ -50,8 +53,8 @@ export const EditProfileForm = () => {
       aspect: [4, 3],
       quality: 1,
     });
-    setAvatar_url(image);
     if (!result.canceled) {
+      // Sprawdzamy czy użytkownik anulował wybór
       setImage(result.assets[0].uri);
       setAvatar_url(result.assets[0].uri);
     }
@@ -75,7 +78,7 @@ export const EditProfileForm = () => {
         </Pressable>
       </View>
       <View style={styles.settings2}>
-        <Text style={styles.text2}>name</Text>
+        <Text style={styles.text2}>{translated.name}</Text>
         <View style={styles.settings}>
           <TextInput
             mode="flat"
@@ -92,7 +95,7 @@ export const EditProfileForm = () => {
         </View>
       </View>
       <View style={styles.settings2}>
-        <Text style={styles.text2}>description</Text>
+        <Text style={styles.text2}>{translated.description}</Text>
         <View style={styles.settings}>
           <TextInput
             placeholderTextColor={"white"}
@@ -109,7 +112,7 @@ export const EditProfileForm = () => {
         </View>
       </View>
       <Button mode="contained" onPress={send}>
-        Save
+        {translated.save}
       </Button>
     </View>
   );

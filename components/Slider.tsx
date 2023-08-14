@@ -24,7 +24,6 @@ export const Slider1: React.FC<SlideUpComponentProps> = ({
 
   const handleSlideUp = () => {
     if (mrunio == 1) {
-      console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", name);
       Animated.timing(slideAnim, {
         toValue: 1,
         duration: 300,
@@ -42,7 +41,6 @@ export const Slider1: React.FC<SlideUpComponentProps> = ({
       setMrunio(1);
     });
   };
-  console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", name);
 
   return (
     <TouchableOpacity style={styles.container}>

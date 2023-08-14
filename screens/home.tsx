@@ -22,7 +22,6 @@ interface ChatHomeProps {
 const HomeScreen = ({ route }: ChatHomeProps) => {
   const navigation = useNavigation();
   const description = route.params?.description;
-  console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", description);
   const navigateToLogin = () => {
     navigation.navigate("Login" as never);
   };
@@ -42,7 +41,6 @@ const HomeScreen = ({ route }: ChatHomeProps) => {
 
   const fetchUserList = async () => {
     const response = await userList();
-    console.log("User list", response);
     setUsers(response);
   };
 

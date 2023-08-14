@@ -8,6 +8,7 @@ import { User } from "../types";
 import { userList, userInfo } from "../api/api";
 import { ActivityIndicator, MD2Colors, Text } from "react-native-paper";
 import { useUser } from "../utils/user-hook";
+import { makeTranslations } from "../react-littera";
 
 interface ChatLobbyProps {
   onPress: () => void;
@@ -18,6 +19,8 @@ const ChatLobbyScreen = () => {
   const { user, loading: userLoading } = useUser();
   const [contactUsers, setContactUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(false); // Set initial loading state to false
+  const useTrans = makeTranslations({});
+  const translated = useTrans();
 
   const fetchData = async () => {
     try {

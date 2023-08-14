@@ -1,37 +1,57 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet, View, Image } from "react-native";
-import { Text } from "react-native-paper";
-import { userUpdate } from "../api/api";
+import { Button, Text } from "react-native-paper";
+import { userInfo } from "../api/api"; // Usuwamy userUpdate i useUser
 import { useUser } from "../utils/user-hook";
+import { makeTranslations } from "../react-littera";
+import { useFocusEffect } from "@react-navigation/native";
 
 export const ProfileForm = () => {
-  const { user } = useUser();
   const [name, setName] = useState("");
   const [avatar_url, setAvatar_url] = useState("");
   const [description, setDescription] = useState("");
+  const [userId, setUserId] = useState("");
+  const { user, loading } = useUser();
+  const useTrans = makeTranslations({});
+  const translated = useTrans();
+
+  const handleUpdate = async () => {
+    try {
+      const updatedUserData = await userInfo(user.id);
+
+      setName(updatedUserData.name);
+      setDescription(updatedUserData.description);
+      setAvatar_url(updatedUserData.avatar_url);
+    } catch (error) {
+      console.error("Error updating user info:", error);
+    }
+  };
 
   useEffect(() => {
-    if (user) {
-      setName(user.name);
-      setDescription(user.description);
-      setAvatar_url(user.avatar_url);
-    }
-  }, [user]);
+    handleUpdate();
+  }, [handleUpdate, user]);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      handleUpdate();
+    }, [])
+  );
 
   return (
     <View style={styles.container}>
       <Image source={{ uri: avatar_url }} style={styles.avatar} />
       <View style={styles.settings2}>
-        <Text style={styles.text2}>name</Text>
+        <Text style={styles.text2}>{translated.login}</Text>
         <View style={styles.settings}>
           <Text style={styles.text}>{name}</Text>
         </View>
       </View>
       <View style={styles.settings2}>
-        <Text style={styles.text2}>description</Text>
+        <Text style={styles.text2}>{translated.description}</Text>
         <View style={styles.settings}>
           <Text style={styles.text}>{description}</Text>
         </View>
+        {/* Dodaj przycisk Update tutaj, jeśli chcesz zachować istniejącą funkcjonalność */}
       </View>
     </View>
   );

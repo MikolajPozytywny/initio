@@ -12,6 +12,7 @@ import { useNavigation } from "@react-navigation/native";
 import { Slider1 } from "./Slider";
 import { set } from "firebase/database";
 import { SwaiperBottomBar } from "./SwaiperBottomBar";
+import AsyncStorage from "@react-native-async-storage/async-storage"; // Import AsyncStorage
 
 interface Props {
   esa?: string;
@@ -22,19 +23,38 @@ export const Swaiper = (props: Props) => {
   const [users, setUsers] = useState<User[] | null>(null);
   const navigation = useNavigation();
   const [dupa, setDupa] = useState<number>(0);
-  const [autoSwipeEnabled, setAutoSwipeEnabled] = useState(true);
+  const [swipedUsers, setSwipedUsers] = useState<string[]>([]);
+  const [userIndex, setUserIndex] = useState(0);
+  const [haloLogged, setHaloLogged] = useState(false); // Dodaj ten stan
+
   const fetchUserList = async () => {
     const response = await userList();
-    console.log("User list", response);
-    setUsers(
-      response?.filter((user) => {
-        return auth.currentUser?.uid !== user?.id;
-      })
-    );
+
+    const swipedUsersList = await getSwipedUsers(); // Pobierz listę przesuniętych użytkowników
+
+    const filteredUsers = response?.filter((user) => {
+      return (
+        auth.currentUser?.uid !== user?.id &&
+        !swipedUsersList.includes(user?.id) // Użyj tutaj swipedUsersList
+      );
+    });
+
+    console.log("User list", filteredUsers);
+    setUsers(filteredUsers);
   };
+
   useEffect(() => {
     if (auth.currentUser?.uid) fetchUserList();
   }, [auth.currentUser?.uid]);
+
+  const clearSwipedUsers = async () => {
+    try {
+      await AsyncStorage.removeItem("swipedUsers");
+      console.log("Usunięto zapisanych użytkowników z bazy danych.");
+    } catch (error) {
+      console.error("Błąd podczas usuwania zapisanych użytkowników:", error);
+    }
+  };
 
   const fetchMatchCheck = async (targetId) => {
     // Check if 'users' is not empty before proceeding
@@ -55,19 +75,61 @@ export const Swaiper = (props: Props) => {
     const response = await matchesCreate(targetId);
     console.log("matches-check", response);
   };
-
+  const displaySwipedUsers = async () => {
+    try {
+      const swipedUsersList = await getSwipedUsers();
+      setSwipedUsers(swipedUsersList); // Use setSwipedUsers, not setSwipedUser
+      console.log("Zapisani użytkownicy:", swipedUsersList);
+    } catch (error) {
+      console.error("Błąd wyświetlania zapisanych użytkowników:", error);
+    }
+  };
   const onSwipedRight = (userIndex: number) => {
-    console.log("Match");
-    fetchMatchCheck(users[userIndex + 1]?.id);
-
+    const swipedUserId = users[userIndex]?.id;
+    fetchMatchCheck(swipedUserId);
+    storeSwipedUser(swipedUserId);
+    console.log("WWWWWWWWWWWWWWWWWW, swi", swipedUserId);
     setDupa(dupa + 1);
+    displaySwipedUsers();
   };
 
   const onSwipedLeft = (userIndex: number) => {
-    console.log("Discard");
-    fetchMatchCheck(users[userIndex]?.id);
-
+    const swipedUserId = users[userIndex]?.id;
+    fetchMatchCheck(swipedUserId);
+    storeSwipedUser(swipedUserId);
     setDupa(dupa + 1);
+    console.log("ELEOLEOLEOE", users[userIndex]?.description);
+    displaySwipedUsers();
+  };
+
+  const storeSwipedUser = async (userId: string) => {
+    try {
+      if (userId && userId !== "null") {
+        // Dodatkowe sprawdzanie, czy userId nie jest null
+        console.log("elo", userId);
+        const storedData = await AsyncStorage.getItem("swipedUsers");
+        const existingSwipedUsers = storedData ? JSON.parse(storedData) : [];
+
+        if (!existingSwipedUsers.includes(userId)) {
+          existingSwipedUsers.push(userId);
+          await AsyncStorage.setItem(
+            "swipedUsers",
+            JSON.stringify(existingSwipedUsers)
+          );
+        }
+      }
+    } catch (error) {
+      console.error("Error storing swiped user:", error);
+    }
+  };
+  const getSwipedUsers = async () => {
+    try {
+      const storedData = await AsyncStorage.getItem("swipedUsers");
+      return storedData ? JSON.parse(storedData) : [];
+    } catch (error) {
+      console.error("Error getting swiped users:", error);
+      return [];
+    }
   };
 
   if (users === null) {
@@ -85,6 +147,7 @@ export const Swaiper = (props: Props) => {
       swiperRef.current.swipeRight();
     }
   };
+
   return (
     <View style={styles.container}>
       <DeckSwiper
@@ -158,6 +221,7 @@ export const Swaiper = (props: Props) => {
         onSwipedRight={onSwipedRight}
         onSwipedLeft={onSwipedLeft}
       />
+
       <View style={styles.bottomBar}>
         <SwaiperBottomBar
           onLeftButtonPress={swipeLeftAutomatically}
