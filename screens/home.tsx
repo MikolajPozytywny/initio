@@ -75,21 +75,10 @@ const styles = StyleSheet.create({
     flex: 1,
     width: "100%",
     alignItems: "center",
-    justifyContent: "space-between", // Add this to distribute content vertically
+
     backgroundColor: "#241E24",
   },
-  swaiperContainer: {
-    backgroundColor: "#424242",
-    alignItems: "center",
-    maxHeight: "70%", // Adjust the height as needed
-    maxWidth: "90%",
-    paddingHorizontal: 5,
-    top: -50,
-    marginTop: 10,
-    borderRadius: 60,
-    alignSelf: "center", // Align the Swaiper to the top
-    paddingBottom: 60,
-  },
+  swaiperContainer: {},
   superButtonContainer: {
     maxHeight: "100%", // Adjust the height as needed
     alignItems: "center",

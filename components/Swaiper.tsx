@@ -22,7 +22,7 @@ export const Swaiper = (props: Props) => {
   const swiperRef = useRef<DeckSwiper<any>>(null);
   const [users, setUsers] = useState<User[] | null>(null);
   const navigation = useNavigation();
-  const [dupa, setDupa] = useState<number>(0);
+  const [person, setPerson] = useState<number>(0);
   const [swipedUsers, setSwipedUsers] = useState<string[]>([]);
   const [userIndex, setUserIndex] = useState(0);
   const [haloLogged, setHaloLogged] = useState(false); // Dodaj ten stan
@@ -89,7 +89,7 @@ export const Swaiper = (props: Props) => {
     fetchMatchCheck(swipedUserId);
     storeSwipedUser(swipedUserId);
     console.log("WWWWWWWWWWWWWWWWWW, swi", swipedUserId);
-    setDupa(dupa + 1);
+    setPerson(person + 1);
     displaySwipedUsers();
   };
 
@@ -97,7 +97,7 @@ export const Swaiper = (props: Props) => {
     const swipedUserId = users[userIndex]?.id;
     fetchMatchCheck(swipedUserId);
     storeSwipedUser(swipedUserId);
-    setDupa(dupa + 1);
+    setPerson(person + 1);
     console.log("ELEOLEOLEOE", users[userIndex]?.description);
     displaySwipedUsers();
   };
@@ -150,78 +150,77 @@ export const Swaiper = (props: Props) => {
 
   return (
     <View style={styles.container}>
-      <DeckSwiper
-        ref={swiperRef}
-        backgroundColor="transparent"
-        cards={users || []}
-        swipeAnimationDuration={155}
-        cardStyle={{ height: "100%" }}
-        keyExtractor={(card) => card?.id}
-        cardVerticalMargin={85}
-        cardHorizontalMargin={20}
-        stackSeparation={0}
-        disableTopSwipe
-        disableBottomSwipe
-        overlayLabels={{
-          left: {
-            title: "NOPE",
-            style: {
-              label: {
-                borderColor: "#E5000E",
-                borderRadius: 20,
-                color: "#E5000E",
-                borderWidth: 5,
-                fontSize: 75,
-                transform: [{ rotate: "45deg" }], // Obrót tekstu o 180 stopni
-              },
-              wrapper: {
-                flexDirection: "column",
-                alignItems: "center",
-                justifyContent: "flex-start",
-                marginTop: 10,
-                marginRight: 100,
-              },
-            },
-          },
-
-          right: {
-            title: "LIKE",
-            style: {
-              label: {
-                borderColor: "#22FC0D",
-                borderRadius: 20,
-                color: "#22FC0D",
-                borderWidth: 5,
-                fontSize: 75,
-                transform: [{ rotate: "-45deg" }], // Obrót tekstu o 180 stopni
-              },
-              wrapper: {
-                flexDirection: "column",
-                alignItems: "flex-start",
-                justifyContent: "flex-start",
-                marginTop: 10,
-                marginLeft: 10,
-              },
-            },
-          },
-        }}
-        animateOverlayLabelsOpacity
-        animateCardOpacity
-        renderCard={(user) => (
-          <View style={styles.card} key={user?.id}>
-            <Image source={{ uri: user?.avatar_url }} style={styles.image} />
-            <View style={styles.overlay}>
-              <Text variant="displayMedium" style={styles.cardText}>
-                {user?.name}
-              </Text>
+      <View style={styles.deckSwaiper}>
+        <DeckSwiper
+          renderCard={(user) => (
+            <View style={styles.card} key={user?.id}>
+              <Image source={{ uri: user?.avatar_url }} style={styles.image} />
+              <View style={styles.overlay}>
+                <Text variant="displayMedium" style={styles.cardText}>
+                  {user?.name}
+                </Text>
+              </View>
+              <View style={styles.overlay}></View>
             </View>
-            <View style={styles.overlay}></View>
-          </View>
-        )}
-        onSwipedRight={onSwipedRight}
-        onSwipedLeft={onSwipedLeft}
-      />
+          )}
+          ref={swiperRef}
+          backgroundColor="transparent"
+          cards={users || []}
+          swipeAnimationDuration={155}
+          cardStyle={{}}
+          keyExtractor={(card) => card?.id}
+          stackSeparation={0}
+          disableTopSwipe
+          disableBottomSwipe
+          overlayLabels={{
+            left: {
+              title: "NOPE",
+              style: {
+                label: {
+                  borderColor: "#E5000E",
+                  borderRadius: 20,
+                  color: "#E5000E",
+                  borderWidth: 5,
+                  fontSize: 75,
+                  transform: [{ rotate: "45deg" }], // Obrót tekstu o 180 stopni
+                },
+                wrapper: {
+                  flexDirection: "column",
+                  alignItems: "center",
+                  justifyContent: "flex-start",
+                  marginTop: 10,
+                  marginRight: 100,
+                },
+              },
+            },
 
+            right: {
+              title: "LIKE",
+              style: {
+                label: {
+                  borderColor: "#22FC0D",
+                  borderRadius: 20,
+                  color: "#22FC0D",
+                  borderWidth: 5,
+                  fontSize: 75,
+                  transform: [{ rotate: "-45deg" }], // Obrót tekstu o 180 stopni
+                },
+                wrapper: {
+                  flexDirection: "column",
+                  alignItems: "flex-start",
+                  justifyContent: "flex-start",
+                  marginTop: 10,
+                  marginLeft: 10,
+                },
+              },
+            },
+          }}
+          animateOverlayLabelsOpacity
+          animateCardOpacity
+          onSwipedRight={onSwipedRight}
+          onSwipedLeft={onSwipedLeft}
+        />
+      </View>
       <View style={styles.bottomBar}>
         <SwaiperBottomBar
           onLeftButtonPress={swipeLeftAutomatically}
@@ -230,7 +229,7 @@ export const Swaiper = (props: Props) => {
       </View>
       <View style={styles.Slider}>
         <Slider1
-          name={users[dupa]?.description || ""}
+          name={users[person]?.description || ""}
           onSlideUp={console.log}
         />
       </View>
@@ -246,39 +245,44 @@ const styles: {
   cardText: TextStyle;
   Slider: ViewStyle;
   bottomBar: ViewStyle;
+  deckSwaiper: ViewStyle;
 } = {
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
+  container: {},
+  card: {
+    alignItems: "flex-start",
+    justifyContent: "flex-start",
+    borderRadius: 50,
+    maxHeight: "100%",
     maxWidth: "100%",
   },
-  card: {
-    alignItems: "center",
-    justifyContent: "center",
-    borderRadius: 50,
-    margin: 10,
-    right: 27,
-    top: -85,
-    width: "95%",
-  },
   image: {
-    backgroundColor: "transparent",
     borderRadius: 50,
     height: "100%",
+    maxWidth: "100%",
     width: "100%",
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "red",
+    margin: 10,
   },
   overlay: {
-    position: "absolute",
     top: 0,
     left: 0,
     right: 0,
     bottom: 0,
-    marginLeft: 20,
-    marginBottom: 20,
-    justifyContent: "flex-end",
+
+    justifyContent: "center",
     alignItems: "flex-start",
     width: "100%",
+  },
+  deckSwaiper: {
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#424242",
+    height: "70%",
+    maxHeight: "70%",
+    flex: 1,
+    margin: 10,
   },
   cardText: {
     color: "white",
@@ -291,20 +295,20 @@ const styles: {
     backgroundColor: "Blue",
   },
   Slider: {
-    position: "absolute",
-    justifyContent: "flex-start",
+    alignItems: "center",
+    justifyContent: "flex-end",
+    marginTop: 120,
     left: 0,
-    bottom: -230,
-    maxWidth: "110%",
+    maxWidth: "100%",
     width: "100%",
     maxHeight: "100%",
   },
   bottomBar: {
+    top: -300,
     alignItems: "center",
     justifyContent: "center",
     left: 0,
     right: 0,
-    top: 295,
   },
 };
 
