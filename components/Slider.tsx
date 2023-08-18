@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import {
   StyleSheet,
   View,
@@ -12,18 +12,20 @@ import { IconButton } from "react-native-paper";
 interface SlideUpComponentProps {
   onSlideUp: () => void; // Funkcja wywoływana po wysunięciu komponentu
   name?: string;
+  mrunio2?: number;
 }
 
 export const Slider1: React.FC<SlideUpComponentProps> = ({
   onSlideUp,
+  mrunio2,
   name,
 }) => {
-  const [slideAnim] = useState(new Animated.Value(0)); // Początkowa wartość animacji
-
+  const slideAnim = useRef(new Animated.Value(0)).current;
   const [mrunio, setMrunio] = useState(1);
 
   const handleSlideUp = () => {
     if (mrunio == 1) {
+      console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", name);
       Animated.timing(slideAnim, {
         toValue: 1,
         duration: 300,
@@ -41,9 +43,18 @@ export const Slider1: React.FC<SlideUpComponentProps> = ({
       setMrunio(1);
     });
   };
+  console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", name);
+
+  useEffect(() => {
+    if (mrunio2 === 1) {
+      handleSlideUp();
+      // Reset mrunio2 to a different value to avoid triggering this effect again
+      // until mrunio2 becomes 2 again.
+    }
+  }, [mrunio2]);
 
   return (
-    <TouchableOpacity style={styles.container}>
+    <View style={styles.container}>
       <Animated.View
         style={[
           styles.slideUpContainer,
@@ -52,19 +63,16 @@ export const Slider1: React.FC<SlideUpComponentProps> = ({
               {
                 translateY: slideAnim.interpolate({
                   inputRange: [0, 1],
-                  outputRange: [400, 0],
+                  outputRange: [800, 0],
                 }),
               },
             ],
           },
         ]}
       >
-        <TouchableOpacity
-          style={styles.TouchableConteiner}
-          onPress={mrunio === 1 ? handleSlideUp : undefined}
-        >
+        <ScrollView style={styles.TouchableConteiner}>
           <View style={[styles.blueBackground]}>
-            {mrunio == 0 && (
+            {mrunio === 0 && (
               <IconButton
                 icon="arrow-down"
                 iconColor="white"
@@ -73,19 +81,17 @@ export const Slider1: React.FC<SlideUpComponentProps> = ({
               />
             )}
           </View>
-
           <Text style={styles.slideUpText}>{name}</Text>
-        </TouchableOpacity>
+        </ScrollView>
       </Animated.View>
-    </TouchableOpacity>
+    </View>
   );
 };
 const styles = StyleSheet.create({
   container: {
     position: "absolute",
-    bottom: -40,
-    width: "100%",
-    height: 200,
+
+    width: "95%",
     justifyContent: "center",
     alignItems: "center",
   },
@@ -95,7 +101,7 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     right: 0,
-    height: 600,
+    height: 800,
     backgroundColor: "#424242",
     justifyContent: "flex-start",
     alignItems: "flex-start",
@@ -108,7 +114,6 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
     alignItems: "flex-start",
     color: "#B8B8B8",
-    multiline: true,
   },
   blueBackground: {
     justifyContent: "flex-start",

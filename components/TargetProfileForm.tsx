@@ -6,44 +6,31 @@ import { useUser } from "../utils/user-hook";
 import { makeTranslations } from "../react-littera";
 import { useFocusEffect } from "@react-navigation/native";
 
-export const ProfileForm = () => {
-  const [name, setName] = useState("");
-  const [avatar_url, setAvatar_url] = useState("");
-  const [description, setDescription] = useState("");
+interface TargetProfileFormProps {
+  id: string;
+  name: string;
+  avatarUrl: any;
+  description: string;
+}
+
+export const TargetProfileForm = ({
+  id,
+  avatarUrl,
+  name,
+  description,
+}: TargetProfileFormProps) => {
   const [userId, setUserId] = useState("");
   const { user, loading } = useUser();
   const useTrans = makeTranslations({});
   const translated = useTrans();
 
-  const handleUpdate = async () => {
-    try {
-      const updatedUserData = await userInfo(user.id);
-
-      setName(updatedUserData.name);
-      setDescription(updatedUserData.description);
-      setAvatar_url(updatedUserData.avatar_url);
-    } catch (error) {
-      console.error("Error updating user info:", error);
-    }
-  };
-
-  useEffect(() => {
-    handleUpdate();
-  }, [handleUpdate, user]);
-
-  useFocusEffect(
-    React.useCallback(() => {
-      handleUpdate();
-    }, [])
-  );
-
   return (
     <View style={styles.container}>
-      <Image source={{ uri: avatar_url }} style={styles.avatar} />
+      <Image source={{ uri: avatarUrl }} style={styles.avatar} />
       <View style={styles.settings2}>
         <Text style={styles.text2}>{translated.login}</Text>
         <View style={styles.settings}>
-          <Text style={styles.text}>{name}</Text>
+          <Text style={styles.text}>{name} sdadwawd</Text>
         </View>
       </View>
       <View style={styles.settings2}>

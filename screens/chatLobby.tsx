@@ -9,6 +9,7 @@ import { userList, userInfo } from "../api/api";
 import { ActivityIndicator, MD2Colors, Text } from "react-native-paper";
 import { useUser } from "../utils/user-hook";
 import { makeTranslations } from "../react-littera";
+import { BottomBar } from "../components/BottomBar";
 
 interface ChatLobbyProps {
   onPress: () => void;
@@ -47,9 +48,7 @@ const ChatLobbyScreen = () => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.topBar}>
-        <TopBar />
-      </View>
+      <View style={styles.topBar}></View>
       <ScrollView>
         <View style={styles.chat}>
           {loading ? (
@@ -72,11 +71,13 @@ const ChatLobbyScreen = () => {
                 name={contact.name}
                 avatarUrl={contact.avatar_url}
                 conversationId={user?.contacts}
+                descryption={contact.description}
               />
             ))
           )}
         </View>
       </ScrollView>
+      <BottomBar />
     </View>
   );
 };
@@ -92,7 +93,7 @@ const styles = StyleSheet.create({
   },
   topBar: {
     paddingTop: 20,
-    paddingHorizontal: 20,
+    marginTop: "10%",
     maxWidth: "100%",
     width: "100%",
   },

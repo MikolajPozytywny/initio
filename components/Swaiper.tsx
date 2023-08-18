@@ -1,18 +1,27 @@
 import React, { useEffect, useRef, useState } from "react";
-import { View, ViewStyle, Image, ImageStyle, TextStyle } from "react-native";
+import {
+  View,
+  ViewStyle,
+  Image,
+  ImageStyle,
+  TextStyle,
+  ScrollView,
+} from "react-native";
 import DeckSwiper from "react-native-deck-swiper";
 import { IconButton } from "./IconButton";
 import { SuperButton } from "./SuperButton";
 import { userList, matchesCheck, matchesCreate } from "../api/api";
 import { User } from "../types";
 import { useUser } from "../utils/user-hook";
-import { Text } from "react-native-paper";
+import { Button, Text } from "react-native-paper";
 import { auth } from "../fireBaseConfig";
 import { useNavigation } from "@react-navigation/native";
 import { Slider1 } from "./Slider";
 import { set } from "firebase/database";
 import { SwaiperBottomBar } from "./SwaiperBottomBar";
 import AsyncStorage from "@react-native-async-storage/async-storage"; // Import AsyncStorage
+import { BottomBar } from "./BottomBar";
+import { LinearGradient } from "expo-linear-gradient";
 
 interface Props {
   esa?: string;
@@ -24,7 +33,8 @@ export const Swaiper = (props: Props) => {
   const navigation = useNavigation();
   const [person, setPerson] = useState<number>(0);
   const [swipedUsers, setSwipedUsers] = useState<string[]>([]);
-  const [userIndex, setUserIndex] = useState(0);
+  const [handleSlideUp, setHandleSlideUp] = useState<() => void>(() => {});
+  const [Mrunio, setMrunio] = useState(2);
   const [haloLogged, setHaloLogged] = useState(false); // Dodaj ten stan
 
   const fetchUserList = async () => {
@@ -71,6 +81,7 @@ export const Swaiper = (props: Props) => {
       console.log(users[0]?.contacts);
     }
   };
+
   const CreateMatch = async (targetId: string) => {
     const response = await matchesCreate(targetId);
     console.log("matches-check", response);
@@ -136,9 +147,19 @@ export const Swaiper = (props: Props) => {
     return <Text>loading</Text>;
   }
 
+  if (users[person]?.id === undefined) {
+    return <Text style={styles.Text}>all users have been swiped</Text>;
+  }
+
   const swipeLeftAutomatically = () => {
     if (swiperRef.current) {
       swiperRef.current.swipeLeft();
+    }
+  };
+
+  const swipeTopAutomatically = () => {
+    if (swiperRef.current) {
+      swiperRef.current.swipeBack();
     }
   };
 
@@ -148,89 +169,151 @@ export const Swaiper = (props: Props) => {
     }
   };
 
+  const handleParentSlideUp = () => {
+    console.log("handleSlideUp from parent");
+    console.log(users[person]?.id);
+    setMrunio(1);
+    return;
+  };
+
+  if (Mrunio === 1) {
+    setTimeout(() => {
+      setMrunio(2);
+    }, 200); // 2000 milliseconds = 2 seconds
+  }
+
   return (
     <View style={styles.container}>
-      <View style={styles.deckSwaiper}>
-        <DeckSwiper
-          renderCard={(user) => (
-            <View style={styles.card} key={user?.id}>
-              <Image source={{ uri: user?.avatar_url }} style={styles.image} />
-              <View style={styles.overlay}>
-                <Text variant="displayMedium" style={styles.cardText}>
-                  {user?.name}
-                </Text>
-              </View>
-              <View style={styles.overlay}></View>
-            </View>
-          )}
-          ref={swiperRef}
-          backgroundColor="transparent"
-          cards={users || []}
-          swipeAnimationDuration={155}
-          cardStyle={{}}
-          keyExtractor={(card) => card?.id}
-          stackSeparation={0}
-          disableTopSwipe
-          disableBottomSwipe
-          overlayLabels={{
-            left: {
-              title: "NOPE",
-              style: {
-                label: {
-                  borderColor: "#E5000E",
-                  borderRadius: 20,
-                  color: "#E5000E",
-                  borderWidth: 5,
-                  fontSize: 75,
-                  transform: [{ rotate: "45deg" }], // Obrót tekstu o 180 stopni
-                },
-                wrapper: {
-                  flexDirection: "column",
-                  alignItems: "center",
-                  justifyContent: "flex-start",
-                  marginTop: 10,
-                  marginRight: 100,
-                },
-              },
-            },
+      {users.length === 0 && (
+        <Text style={styles.Text}>all users have been swiped</Text>
+      )}
 
-            right: {
-              title: "LIKE",
-              style: {
-                label: {
-                  borderColor: "#22FC0D",
-                  borderRadius: 20,
-                  color: "#22FC0D",
-                  borderWidth: 5,
-                  fontSize: 75,
-                  transform: [{ rotate: "-45deg" }], // Obrót tekstu o 180 stopni
-                },
-                wrapper: {
-                  flexDirection: "column",
-                  alignItems: "flex-start",
-                  justifyContent: "flex-start",
-                  marginTop: 10,
-                  marginLeft: 10,
-                },
+      <DeckSwiper
+        renderCard={(user) => (
+          <View style={[styles.card, { paddingBottom: "20%" }]} key={user?.id}>
+            <Image source={{ uri: user?.avatar_url }} style={styles.image} />
+
+            <LinearGradient
+              colors={["transparent", "#3b3b3b"]}
+              style={{
+                justifyContent: "flex-end",
+                left: 0,
+                right: 0,
+                top: 0,
+                height: "15%",
+                maxHeight: "100%",
+                alignItems: "flex-start",
+                position: "absolute",
+                marginTop: "119%",
+              }}
+            />
+            <Text variant="displayMedium" style={styles.cardText}>
+              {user?.name}
+            </Text>
+            <Text
+              numberOfLines={4}
+              variant="displaySmall"
+              onPress={handleParentSlideUp}
+              style={styles.cardText2}
+            >
+              {user?.description}
+            </Text>
+          </View>
+        )}
+        ref={swiperRef}
+        cards={users || []}
+        swipeAnimationDuration={155}
+        showSecondCard={true}
+        goBackToPreviousCardOnSwipeTop
+        cardStyle={{
+          right: 0,
+          left: 0,
+          top: 0,
+          bottom: 0,
+          maxWidth: "100%",
+          height: "80%",
+
+          width: "100%",
+        }}
+        keyExtractor={(card) => card?.id}
+        containerStyle={styles.deckSwaiper}
+        stackSeparation={0}
+        backgroundColor="transparent"
+        onSwipedAll={() => {
+          console.log("onSwipedAll");
+          <Text style={styles.Text}>all users have been swiped</Text>;
+        }}
+        disableTopSwipe
+        stackSize={3}
+        disableBottomSwipe
+        overlayLabels={{
+          left: {
+            title: "NOPE",
+            style: {
+              label: {
+                borderColor: "#E5000E",
+                borderRadius: 20,
+                color: "#E5000E",
+                borderWidth: 5,
+                fontSize: 75,
+                transform: [{ rotate: "45deg" }], // Obrót tekstu o 180 stopni
+                marginLeft: 70,
+              },
+              wrapper: {
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "flex-start",
+                marginTop: 80,
+                marginRight: 0,
               },
             },
-          }}
-          animateOverlayLabelsOpacity
-          animateCardOpacity
-          onSwipedRight={onSwipedRight}
-          onSwipedLeft={onSwipedLeft}
-        />
-      </View>
-      <View style={styles.bottomBar}>
-        <SwaiperBottomBar
-          onLeftButtonPress={swipeLeftAutomatically}
-          onRightButtonPress={swipeRightAutomatically}
-        />
-      </View>
+          },
+
+          right: {
+            title: "LIKE",
+            style: {
+              label: {
+                borderColor: "#22FC0D",
+                borderRadius: 20,
+                color: "#22FC0D",
+                borderWidth: 5,
+                fontSize: 75,
+                transform: [{ rotate: "-45deg" }], // Obrót tekstu o 180 stopni
+              },
+              wrapper: {
+                flexDirection: "column",
+                alignItems: "flex-start",
+                justifyContent: "flex-start",
+                marginTop: 60,
+                marginLeft: 30,
+              },
+            },
+          },
+        }}
+        animateOverlayLabelsOpacity
+        animateCardOpacity
+        onSwipedRight={onSwipedRight}
+        onSwipedLeft={onSwipedLeft}
+        swipeBackCard={true}
+      ></DeckSwiper>
+
       <View style={styles.Slider}>
         <Slider1
-          name={users[person]?.description || ""}
-          onSlideUp={console.log}
+          onSlideUp={() => {
+            // Funkcja onSlideUp
+          }}
+          mrunio2={Mrunio}
+          name={users[person]?.description}
+        />
+      </View>
+
+      <View style={styles.bottomBar2}>
+        <SwaiperBottomBar
+          onLeftButtonPress={swipeLeftAutomatically}
+          onMiddleButtonPress={handleParentSlideUp}
+          onRightButtonPress={swipeRightAutomatically}
+          onRight2ButtonPress={handleParentSlideUp}
+          onLeft2ButtonPress={swipeTopAutomatically}
         />
       </View>
     </View>
@@ -245,70 +328,106 @@ const styles: {
   cardText: TextStyle;
   Slider: ViewStyle;
   bottomBar: ViewStyle;
+  bottomBar2: ViewStyle;
   deckSwaiper: ViewStyle;
+  cardText2: TextStyle;
+  Text: TextStyle;
 } = {
-  container: {},
+  container: {
+    flex: 1,
+  },
   card: {
-    alignItems: "flex-start",
+    alignItems: "center",
     justifyContent: "flex-start",
     borderRadius: 50,
-    maxHeight: "100%",
-    maxWidth: "100%",
+    backgroundColor: "#3b3b3b",
+    height: "95%", // Set the height to 100%
+    position: "relative", // Dodaj tę linię
   },
   image: {
-    borderRadius: 50,
-    height: "100%",
-    maxWidth: "100%",
-    width: "100%",
+    borderTopLeftRadius: 30,
+    borderTopRightRadius: 30,
+    justifyContent: "flex-start",
     alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "red",
-    margin: 10,
+    height: "100%", // Set the height to 100%
+    width: "100%", // Set the width to 100%
+    resizeMode: "cover", // Ensure the image covers the entire container
   },
   overlay: {
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
+    alignContent: "flex-start",
 
-    justifyContent: "center",
-    alignItems: "flex-start",
+    left: 0,
     width: "100%",
+    right: 0,
   },
   deckSwaiper: {
+    borderRadius: 20,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "#424242",
-    height: "70%",
-    maxHeight: "70%",
-    flex: 1,
-    margin: 10,
+    width: "100%",
+    maxWidth: "100%",
   },
   cardText: {
+    justifyContent: "flex-start",
+    alignItems: "flex-start",
+    left: "0%",
+    marginHorizontal: 20,
     color: "white",
     fontFamily: "inter-bold",
     fontWeight: "bold",
-    textAlign: "center",
-    textShadowColor: "rgba(0, 0, 0, 0.5)",
-    textShadowOffset: { width: -1, height: 1 },
-    textShadowRadius: 10,
-    backgroundColor: "Blue",
+    fontSize: 40,
+    bottom: "30%",
+    position: "absolute",
+  },
+  cardText2: {
+    justifyContent: "flex-start",
+    alignItems: "flex-start",
+    lineHeight: 20,
+    left: "0%",
+    marginHorizontal: 20,
+    color: "white",
+
+    fontFamily: "inter-bold",
+    fontWeight: "bold",
+    fontSize: 15,
+    top: "83%",
+
+    position: "absolute",
   },
   Slider: {
     alignItems: "center",
-    justifyContent: "flex-end",
-    marginTop: 120,
-    left: 0,
-    maxWidth: "100%",
     width: "100%",
-    maxHeight: "100%",
+    maxWidth: "100%",
+    marginTop: "200%",
+    position: "absolute",
+    zIndex: 2, // Add this line to set a higher zIndex
   },
   bottomBar: {
-    top: -300,
-    alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "flex-end",
     left: 0,
     right: 0,
+    top: 0,
+    marginTop: "118%",
+    height: "10%",
+  },
+  bottomBar2: {
+    marginTop: "132%",
+    alignItems: "center",
+    justifyContent: "flex-end",
+    width: "100%",
+    maxWidth: "100%",
+    left: 0,
+    right: 0,
+    top: 0,
+    height: "10%",
+  },
+  Text: {
+    position: "absolute",
+    width: "100%",
+    textAlign: "center",
+    marginTop: "40%",
+    color: "white",
+    fontSize: 30,
   },
 };
 

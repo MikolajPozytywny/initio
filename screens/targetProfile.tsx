@@ -2,36 +2,53 @@ import React from "react";
 import { useNavigation } from "@react-navigation/native";
 import { SuperButton } from "../components/SuperButton";
 import { IconButton } from "../components/IconButton";
-import { SettingsForm } from "../components/SettingsForm";
 import { Logo } from "../components/Logo";
 import { ProfileForm } from "../components/ProfileForm";
 import { Appbar, Avatar } from "react-native-paper";
 import { StyleSheet, View, Text, Image, Pressable } from "react-native";
 import { useUser } from "../utils/user-hook";
 import { set } from "firebase/database";
-import { EditProfileForm } from "../components/EditProfileForm";
+import { BottomBar } from "../components/BottomBar";
+import { TargetProfileForm } from "../components/TargetProfileForm";
 
-interface Props {}
+interface Props {
+  route: any;
+}
 
-const EditProfileScreen = () => {
+const TargetProfileScreen = ({ route }: Props) => {
   const navigation = useNavigation();
-
+  const ConverationId = route.params?.ConversationId;
+  const targetUser = route.params?.targetUser;
+  const targetUserAvatar = route.params?.targetUserAvatar;
+  const targetUserName = route.params?.targetUserName;
+  const targetUserDescription = route.params?.targetUserDescription;
+  console.log("TargetProfileScreen", targetUser);
   const navigateToBack = () => {
-    navigation.navigate("Profile" as never);
+    navigation.goBack();
   };
 
+  const navigateToProfileChat = () => {
+    navigation.navigate("EditProfile" as never);
+  };
+  console.log(
+    "TargetProfileScreen",
+    targetUser,
+    targetUserName,
+    targetUserAvatar
+  );
   return (
     <View style={styles.container}>
       <Appbar.Header style={styles.TopBar}>
-        <Appbar.Action
-          icon="arrow-left"
-          color="white"
-          onPress={navigateToBack}
-        />
         <Appbar.Content title="Title" />
       </Appbar.Header>
 
-      <EditProfileForm />
+      <TargetProfileForm
+        id={targetUser}
+        name={targetUserName}
+        avatarUrl={targetUserAvatar}
+        description={targetUserDescription}
+      />
+      <BottomBar />
     </View>
   );
 };
@@ -84,4 +101,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default EditProfileScreen;
+export default TargetProfileScreen;

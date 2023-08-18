@@ -20,6 +20,8 @@ import ChatLobbyScreen from "./screens/chatLobby";
 import { theme } from "./theme";
 import EditProfileScreen from "./screens/editProfile";
 import { LitteraService } from "./react-littera";
+import { TargetProfileForm } from "./components/TargetProfileForm";
+import TargetProfileScreen from "./screens/targetProfile";
 
 const Stack = createNativeStackNavigator();
 
@@ -81,6 +83,10 @@ export default function App() {
             <Stack.Screen name="Chat" component={ChatScreen} />
             <Stack.Screen name="ChatLobby" component={ChatLobbyScreen} />
             <Stack.Screen name="EditProfile" component={EditProfileScreen} />
+            <Stack.Screen
+              name="TargetProfile"
+              component={TargetProfileScreen}
+            />
           </Stack.Navigator>
         </LitteraService>
       </NavigationContainer>

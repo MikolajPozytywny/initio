@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react"; // Import useState
 import { StyleSheet, View, Text, TouchableOpacity } from "react-native"; // Import TouchableOpacity
-import { IconButton } from "../components/IconButton";
+import { IconButton } from "./IconButton";
 import { Logo } from "./Logo";
 import { useNavigation } from "@react-navigation/native";
 import { Button, Snackbar, TextInput } from "react-native-paper";
 import { makeTranslations, useLitteraMethods } from "../react-littera";
 import AsyncStorage from "@react-native-async-storage/async-storage"; // Import AsyncStorage
+import { removeStoreItem } from "../utils/async-store";
 
 export const SettingsForm = () => {
   const useTrans = makeTranslations({});
@@ -48,67 +49,24 @@ export const SettingsForm = () => {
 
     loadSelectedLanguageIndex();
   }, []);
+  const LogOut = async () => {
+    await removeStoreItem("user");
+    navigateToLogin();
+  };
+
+  const navigateToLogin = () => {
+    navigation.navigate("Login" as never);
+  };
 
   return (
     <View style={styles.container}>
-      <IconButton
-        size={20}
-        icon="back"
-        iconButtonColor="white"
-        isAntDesignActive={true}
-        onPress={navigateToBack}
-      />
-      <View style={styles.Logo}>
-        <Logo />
-      </View>
       <View style={styles.settings1}>
-        <Text style={styles.text}>Profile settings</Text>
+        <Text style={styles.text}>{translated.ProfileSettings}</Text>
         <View style={styles.settingss1}>
           <Text style={styles.text}>{translated.Languege}:</Text>
           <Button onPress={changeLanguage}>{translated.Qlanguage}</Button>
         </View>
-
-        <View style={[styles.settingss1, { marginTop: 10 }]}>
-          <IconButton
-            size={20}
-            icon="user"
-            iconButtonColor="white"
-            isAntDesignActive={true}
-          />
-          <Text style={styles.text}>Settings</Text>
-        </View>
-      </View>
-      <View style={styles.settings1}>
-        <Text style={styles.text}>Profile settings</Text>
-        <View style={styles.settingss1}>
-          <IconButton
-            size={20}
-            icon="user"
-            iconButtonColor="white"
-            isAntDesignActive={true}
-          />
-          <Text style={styles.text}>Settings</Text>
-        </View>
-
-        <View style={[styles.settingss1]}>
-          <IconButton
-            size={20}
-            icon="user"
-            iconButtonColor="white"
-            isAntDesignActive={true}
-          />
-          <TextInput
-            mode="flat"
-            value={name} // Use the name state variable
-            underlineColor="transparent"
-            style={styles.text}
-            maxLength={20}
-            multiline={true}
-            onChangeText={(text) => {
-              setName(text); // Use setName to update the name state
-            }}
-          />
-        </View>
+        <Button onPress={LogOut}>LogOut</Button>
       </View>
     </View>
   );
@@ -118,6 +76,7 @@ const styles = StyleSheet.create({
   container: {
     width: "100%",
     alignItems: "center",
+    justifyContent: "center",
   },
   settings1: {
     justifyContent: "center",
@@ -131,10 +90,9 @@ const styles = StyleSheet.create({
     maxWidth: "60%",
   },
   settingss1: {
-    marginTop: 5,
-    marginLeft: 10,
     backgroundColor: "#454444",
     alignItems: "center",
+    width: "100%",
     borderColor: "dark",
     elevation: 0,
     flexDirection: "row",

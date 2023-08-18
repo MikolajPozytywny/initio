@@ -15,6 +15,7 @@ const PRESET = {
     description: "description",
     save: "save",
     Languege: "Languege",
+    ProfileSettings: "Profile Settings",
   },
   pl_PL: {
     Qlanguage: "Polski",
@@ -28,6 +29,7 @@ const PRESET = {
     description: "opis",
     save: "zapisz",
     Languege: "język",
+    ProfileSettings: "Ustawienia profilu",
   },
 };
 const { LitteraService, makeTranslations, useLitteraMethods } = createLittera(

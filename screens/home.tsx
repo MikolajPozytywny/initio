@@ -62,7 +62,7 @@ const HomeScreen = ({ route }: ChatHomeProps) => {
         <View style={styles.swaiperContainer}>
           <Swaiper />
         </View>
-        <View style={styles.superButtonContainer}>
+        <View style={styles.bottomBar2}>
           <BottomBar />
         </View>
       </View>
@@ -71,17 +71,25 @@ const HomeScreen = ({ route }: ChatHomeProps) => {
 };
 const styles = StyleSheet.create({
   container: {
-    position: "relative",
     flex: 1,
+    maxHeight: "100%",
     width: "100%",
     alignItems: "center",
-
+    justifyContent: "space-between",
     backgroundColor: "#241E24",
   },
-  swaiperContainer: {},
+  swaiperContainer: {
+    width: "100%",
+    maxWidth: "100%",
+    maxHeight: "100%",
+    height: "100%",
+  },
   superButtonContainer: {
     maxHeight: "100%", // Adjust the height as needed
+    maxWidth: "100%",
     alignItems: "center",
+    height: "100%",
+    justifyContent: "flex-end",
     alignSelf: "center", // Align the BottomBar to the bottom
     marginBottom: 10,
   },
@@ -90,6 +98,23 @@ const styles = StyleSheet.create({
     alignItems: "center", // Przyciski będą wyśrodkowane w pionie
     width: "100%",
     maxWidth: "100%",
+  },
+  bottomBar2: {
+    alignItems: "center",
+    justifyContent: "flex-end",
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+    right: 0,
+  },
+  Text: {
+    position: "absolute",
+    width: "100%",
+    textAlign: "center",
+    marginTop: "20%",
+    color: "white",
+    fontSize: 20,
+    transform: [{ rotate: "45deg" }],
   },
 });
 

@@ -2,13 +2,13 @@ import React from "react";
 import { useNavigation } from "@react-navigation/native";
 import { SuperButton } from "../components/SuperButton";
 import { IconButton } from "../components/IconButton";
-import { SettingsForm } from "../components/settingsForm";
 import { Logo } from "../components/Logo";
 import { ProfileForm } from "../components/ProfileForm";
 import { Appbar, Avatar } from "react-native-paper";
 import { StyleSheet, View, Text, Image, Pressable } from "react-native";
 import { useUser } from "../utils/user-hook";
 import { set } from "firebase/database";
+import { BottomBar } from "../components/BottomBar";
 
 interface Props {}
 
@@ -26,11 +26,6 @@ const ProfileScreen = () => {
   return (
     <View style={styles.container}>
       <Appbar.Header style={styles.TopBar}>
-        <Appbar.Action
-          icon="arrow-left-bottom"
-          color="white"
-          onPress={navigateToBack}
-        />
         <Appbar.Content title="Title" />
         <Appbar.Action
           icon="pencil"
@@ -40,6 +35,7 @@ const ProfileScreen = () => {
       </Appbar.Header>
 
       <ProfileForm />
+      <BottomBar />
     </View>
   );
 };

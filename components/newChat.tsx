@@ -9,12 +9,14 @@ interface ChatLobbyProps {
   name: string;
   avatarUrl: any;
   conversationId: any;
+  descryption: string;
 }
 
 export const NewChat = ({
   id,
   name,
   avatarUrl,
+  descryption,
   conversationId,
 }: ChatLobbyProps) => {
   const navigation = useNavigation();
@@ -27,10 +29,26 @@ export const NewChat = ({
     });
     console.log("navigateToProfileChat");
   };
+
+  const navigateToTargetProfile = () => {
+    //@ts-ignore
+    navigation.navigate("TargetProfile" as never, {
+      ConversationId: conversationId,
+      targetUser: id,
+      targetUserAvatar: avatarUrl,
+      targetUserName: name,
+      targetUserDescription: descryption,
+    });
+    console.log("navigateToTargetProfile", id, name, avatarUrl);
+  };
   return (
-    <Pressable onPress={navigateToProfileChat} style={Styles.container}>
-      <Image source={{ uri: avatarUrl }} style={Styles.avatar} />
-      <Text style={Styles.Text}>{name}</Text>
+    <Pressable style={Styles.container}>
+      <Pressable onPress={navigateToTargetProfile}>
+        <Image source={{ uri: avatarUrl }} style={Styles.avatar} />
+      </Pressable>
+      <Text onPress={navigateToProfileChat} style={Styles.Text}>
+        {name}{" "}
+      </Text>
     </Pressable>
   );
 };
