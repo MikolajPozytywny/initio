@@ -10,7 +10,7 @@ import {
 import DeckSwiper from "react-native-deck-swiper";
 import { IconButton } from "./IconButton";
 import { SuperButton } from "./SuperButton";
-import { userList, matchesCheck, matchesCreate } from "../api/api";
+import { userList, matchesCheck, matchesCreate, userInfo } from "../api/api";
 import { User } from "../types";
 import { useUser } from "../utils/user-hook";
 import { Button, Text } from "react-native-paper";
@@ -36,8 +36,18 @@ export const Swaiper = (props: Props) => {
   const [handleSlideUp, setHandleSlideUp] = useState<() => void>(() => {});
   const [Mrunio, setMrunio] = useState(2);
   const [haloLogged, setHaloLogged] = useState(false); // Dodaj ten stan
+  const [user4, setUser4] = useState<any>(null);
+  const { user } = useUser();
+  const [isFetchingUser4, setIsFetchingUser4] = useState("0"); // Dodaj nowy stan
+
+  useEffect(() => {
+    if (auth.currentUser?.uid) fetchUserList(); // Inicjuj filtrację, gdy użytkownik jest zalogowany
+  }, [auth.currentUser?.uid]);
 
   const fetchUserList = async () => {
+    const response2 = await userInfo(auth.currentUser?.uid);
+    setUser4(response2);
+
     const response = await userList();
 
     const swipedUsersList = await getSwipedUsers(); // Pobierz listę przesuniętych użytkowników
@@ -45,10 +55,24 @@ export const Swaiper = (props: Props) => {
     const filteredUsers = response?.filter((user) => {
       return (
         auth.currentUser?.uid !== user?.id &&
-        !swipedUsersList.includes(user?.id) // Użyj tutaj swipedUsersList
+        !swipedUsersList.includes(user?.id) &&
+        arraysAreEqual(response2.filters, user?.filters)
       );
     });
 
+    // Funkcja do porównywania dwóch tablic
+    function arraysAreEqual(array1, array2) {
+      if (array1 === null && array2 === null) {
+        return true;
+      }
+      if (array1 === null || array2 === null) {
+        return false;
+      }
+      if (array1.length !== array2.length) {
+        return false;
+      }
+      return array1.every((item) => array2.includes(item));
+    }
     console.log("User list", filteredUsers);
     setUsers(filteredUsers);
   };
@@ -56,15 +80,6 @@ export const Swaiper = (props: Props) => {
   useEffect(() => {
     if (auth.currentUser?.uid) fetchUserList();
   }, [auth.currentUser?.uid]);
-
-  const clearSwipedUsers = async () => {
-    try {
-      await AsyncStorage.removeItem("swipedUsers");
-      console.log("Usunięto zapisanych użytkowników z bazy danych.");
-    } catch (error) {
-      console.error("Błąd podczas usuwania zapisanych użytkowników:", error);
-    }
-  };
 
   const fetchMatchCheck = async (targetId) => {
     // Check if 'users' is not empty before proceeding

@@ -2,6 +2,7 @@
  * @interface User
  */
 export interface User {
+  filters: any;
   email: string;
   name: string;
   avatar_url: string;

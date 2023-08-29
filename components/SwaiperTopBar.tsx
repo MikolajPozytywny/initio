@@ -2,7 +2,6 @@ import React from "react";
 import { Image, StyleSheet, View } from "react-native";
 import { IconButton } from "../components/IconButton";
 import { useNavigation } from "@react-navigation/native";
-import { user, messages, user2 } from "../utils/Mocks/Mock_1";
 import { Appbar } from "react-native-paper";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -12,12 +11,7 @@ export const SwaiperTopBar = () => {
   const _handleSettings = () => navigation.navigate("Settings" as never);
 
   const clearSwipedUsersFromStorage = async () => {
-    try {
-      await AsyncStorage.removeItem("swipedUsers");
-      console.log("Cleared swiped users data from AsyncStorage.");
-    } catch (error) {
-      console.error("Error clearing swiped users data:", error);
-    }
+    navigation.navigate("Filters" as never);
   };
 
   const _handleSearch = () => navigation.navigate("Profile" as never);

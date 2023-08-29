@@ -63,10 +63,12 @@ export const SettingsForm = () => {
       <View style={styles.settings1}>
         <Text style={styles.text}>{translated.ProfileSettings}</Text>
         <View style={styles.settingss1}>
-          <Text style={styles.text}>{translated.Languege}:</Text>
+          <Text style={styles.text2}>{translated.Languege}:</Text>
           <Button onPress={changeLanguage}>{translated.Qlanguage}</Button>
         </View>
-        <Button onPress={LogOut}>LogOut</Button>
+        <Button style={{ backgroundColor: "#454444" }} onPress={LogOut}>
+          LogOut
+        </Button>
       </View>
     </View>
   );
@@ -88,11 +90,13 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     width: "100%",
     maxWidth: "60%",
+    middle: 0,
   },
+
   settingss1: {
     backgroundColor: "#454444",
     alignItems: "center",
-    width: "100%",
+
     borderColor: "dark",
     elevation: 0,
     flexDirection: "row",
@@ -101,6 +105,11 @@ const styles = StyleSheet.create({
   },
   text: {
     color: "white",
+    alignItems: "center",
+  },
+  text2: {
+    color: "white",
+    alignItems: "center",
   },
   Logo: {
     justifyContent: "center",

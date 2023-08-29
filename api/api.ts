@@ -1,7 +1,6 @@
 import { httpsCallable } from "firebase/functions";
 import { functions } from "../fireBaseConfig";
 import { User } from "../types";
-import { user } from "../utils/Mocks/Mock_1";
 
 // Funkcja pomocnicza do wywoływania zdalnych funkcji
 async function callRemoteFunction<T>(
@@ -37,13 +36,15 @@ export const userUpdate = async (
   id: string,
   name: string,
   description: string,
-  avatar_url: string
+  avatar_url: string,
+  filters: string[]
 ): Promise<{ id: string }> =>
   callRemoteFunction<{
     id: string;
   }>("users-update", {
     id,
     name,
+    filters,
     description,
     avatar_url,
   });

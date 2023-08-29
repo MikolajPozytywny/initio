@@ -22,6 +22,7 @@ import EditProfileScreen from "./screens/editProfile";
 import { LitteraService } from "./react-littera";
 import { TargetProfileForm } from "./components/TargetProfileForm";
 import TargetProfileScreen from "./screens/targetProfile";
+import FiltersSccreen from "./screens/filters";
 
 const Stack = createNativeStackNavigator();
 
@@ -87,6 +88,7 @@ export default function App() {
               name="TargetProfile"
               component={TargetProfileScreen}
             />
+            <Stack.Screen name="Filters" component={FiltersSccreen} />
           </Stack.Navigator>
         </LitteraService>
       </NavigationContainer>

@@ -2,19 +2,24 @@ import React from "react";
 import { StyleSheet, View, Text } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { SuperButton } from "../components/SuperButton";
-import { IconButton } from "../components/IconButton";
-import { SettingsForm } from "../components/settingsForm";
+import { IconButtonProps } from "react-native-paper";
+
+import { Appbar } from "react-native-paper";
+import Icon from "react-native-paper/lib/typescript/src/components/Icon";
+import { FiltersComponent } from "../components/Filterscomponent";
 
 interface Props {}
 
-const SettingsScreen = () => {
+const FiltersSccreen = () => {
   const navigation = useNavigation();
+
+  const navigateToBack = () => {
+    navigation.goBack();
+  };
 
   return (
     <View style={styles.container}>
-      <View style={styles.settings1}>
-        <SettingsForm />
-      </View>
+      <FiltersComponent />
     </View>
   );
 };
@@ -28,20 +33,6 @@ const styles = StyleSheet.create({
     elevation: 0, // Decreased elevation
     backgroundColor: "#241E24",
   },
-  settings1: {
-    justifyContent: "flex-start",
-    alignItems: "center",
-    borderColor: "Dark", // Border color
-    elevation: 0, // Decreased elevation
-
-    maxHeight: "100%",
-    width: "90%",
-    flexDirection: "row",
-    color: "white",
-    paddingHorizontal: 5,
-    paddingVertical: 5,
-    borderRadius: 10,
-  },
 });
 
-export default SettingsScreen;
+export default FiltersSccreen;
