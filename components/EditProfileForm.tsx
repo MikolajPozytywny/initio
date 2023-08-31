@@ -10,6 +10,7 @@ export const EditProfileForm = () => {
   const { user } = useUser();
   const [name, setName] = useState("");
   const [avatar_url, setAvatar_url] = useState("");
+  const [filter, setFilter] = useState("");
   const [description, setDescription] = useState("");
   const [editt, setEditt] = useState(true);
   const [text, setText] = useState("");
@@ -17,6 +18,7 @@ export const EditProfileForm = () => {
   const [edittDescription, setEdittDescription] = useState(true);
   const [image, setImage] = useState(null);
   const useTrans = makeTranslations({});
+  const [people_seen, setPeople_seen] = useState("");
   const translated = useTrans();
 
   useEffect(() => {
@@ -24,6 +26,7 @@ export const EditProfileForm = () => {
       setName(user.name);
       setDescription(user.description);
       setAvatar_url(user.avatar_url);
+      setFilter(user.filters);
     }
   }, [user]);
 
@@ -35,8 +38,17 @@ export const EditProfileForm = () => {
       console.log("name: ", user.name);
       const avatar_url = image;
       const name = text;
+      const filter = user.filters;
+      const PeopleSeen = user.PeopleSeen;
       console.log("Before userUpdate call");
-      const response = await userUpdate(id, name, description, avatar_url);
+      const response = await userUpdate(
+        id,
+        name,
+        description,
+        avatar_url,
+        filter,
+        PeopleSeen
+      );
       console.log("After userUpdate call");
       console.log(response); // Log the response from the serv
       setEditt(!editt);

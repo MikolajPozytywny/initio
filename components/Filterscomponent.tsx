@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { StyleSheet, View, Text, ScrollView } from "react-native";
 import { userInfo, userUpdate } from "../api/api";
 import { useUser } from "../utils/user-hook";
-import { FiltersCard } from "./FiltersCard";
+import { FiltersCardHobby } from "./FiltersCardHobby";
 
 interface FiltersComponentProps {}
 
@@ -17,10 +17,10 @@ export const FiltersComponent: React.FC<FiltersComponentProps> = ({}) => {
         <Text>Loading...</Text>
       ) : (
         <View style={styles.cards}>
-          <FiltersCard filter="ALL" icon="star" background="purple" />
-          <FiltersCard filter="HEJKA" icon="menu" background="green" />
-          <FiltersCard filter="3" icon="star" background="blue" />
-          <FiltersCard filter="4" icon="star" background="pink" />
+          <FiltersCardHobby filter="ALL" icon="star" background="purple" />
+          <FiltersCardHobby filter="HEJKA" icon="menu" background="green" />
+          <FiltersCardHobby filter="3" icon="star" background="blue" />
+          <FiltersCardHobby filter="4" icon="star" background="pink" />
         </View>
       )}
     </ScrollView>

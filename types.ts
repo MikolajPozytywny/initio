@@ -9,4 +9,5 @@ export interface User {
   id: string;
   contacts: string[];
   description: string;
+  PeopleSeen: string[];
 }

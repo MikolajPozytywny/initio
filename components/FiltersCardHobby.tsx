@@ -6,11 +6,15 @@ import { IconButton } from "react-native-paper";
 
 interface Props {
   filter: string;
-  icon: string;
   background: string;
+  icon: string;
 }
 
-export const FiltersCard: React.FC<Props> = ({ filter, icon, background }) => {
+export const FiltersCardHobby: React.FC<Props> = ({
+  filter,
+  background,
+  icon,
+}) => {
   const { user } = useUser();
   const [isFilterActive, setIsFilterActive] = useState<boolean>(false);
 
@@ -28,20 +32,28 @@ export const FiltersCard: React.FC<Props> = ({ filter, icon, background }) => {
   const toggleFilter = async () => {
     if (user && user.id) {
       const response = await userInfo(user.id);
+      const hobbyFilterPrefix = "Hobby_";
       const updatedFilters = response.filters.includes(filter)
         ? response.filters.filter((f) => f !== filter)
         : [...response.filters, filter];
 
       await updateUserFilters(updatedFilters);
       setIsFilterActive(!isFilterActive);
-
-      // Wyemituj sygnał po zmianie filtru
     }
   };
 
   const updateUserFilters = async (updatedFilters: string[]) => {
     if (user && user.id) {
-      const { id, avatar_url, name, description } = user;
+      const { id, avatar_url, name, description, PeopleSeen } = user;
+
+      // Dodaj prefiks "Hobby_" do nazw filtrów związanych z hobby
+      const updatedFiltersWithPrefix = updatedFilters.map((filter) => {
+        if (filter.startsWith("Hobby_")) {
+          return filter;
+        } else {
+          return "Hobby_" + filter;
+        }
+      });
 
       try {
         const response = await userUpdate(
@@ -49,7 +61,8 @@ export const FiltersCard: React.FC<Props> = ({ filter, icon, background }) => {
           name,
           description,
           avatar_url,
-          updatedFilters
+          updatedFiltersWithPrefix,
+          PeopleSeen
         );
         console.log(response);
       } catch (error) {
@@ -81,7 +94,7 @@ export const FiltersCard: React.FC<Props> = ({ filter, icon, background }) => {
 
 const styles = StyleSheet.create({
   card: {
-    justifyContent: "flex-end",
+    justifyContent: "center",
     alignItems: "center",
     backgroundColor: "red",
     borderRadius: 20,
@@ -91,7 +104,6 @@ const styles = StyleSheet.create({
   },
   all: {
     color: "white",
-    position: "absolute",
     fontSize: 30,
     fontFamily: "inter-bold",
     fontWeight: "bold",

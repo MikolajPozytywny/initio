@@ -44,20 +44,19 @@ export const Swaiper = (props: Props) => {
     if (auth.currentUser?.uid) fetchUserList(); // Inicjuj filtrację, gdy użytkownik jest zalogowany
   }, [auth.currentUser?.uid]);
 
-  const fetchUserList = async () => {
+  const fetchUserList = async (pageToken?: string) => {
+    // Dodaj opcjonalny parametr pageToken
     const response2 = await userInfo(auth.currentUser?.uid);
+
     setUser4(response2);
 
-    const response = await userList();
+    const response = await userList(10, pageToken);
+    console.log("response", response);
 
     const swipedUsersList = await getSwipedUsers(); // Pobierz listę przesuniętych użytkowników
 
     const filteredUsers = response?.filter((user) => {
-      return (
-        auth.currentUser?.uid !== user?.id &&
-        !swipedUsersList.includes(user?.id) &&
-        arraysAreEqual(response2.filters, user?.filters)
-      );
+      return auth.currentUser?.uid !== user?.id;
     });
 
     // Funkcja do porównywania dwóch tablic

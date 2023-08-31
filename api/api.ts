@@ -14,8 +14,12 @@ export const userInfo = async (id: string): Promise<User> => {
   return callRemoteFunction<User>("users-info", { id });
 };
 
-export const userList = async (): Promise<User[]> => {
-  return callRemoteFunction<User[]>("users-list", {});
+export const userList = async (
+  pageSize: number,
+  pageToken?: string
+): Promise<User[]> => {
+  const data = { pageSize, pageToken };
+  return callRemoteFunction<User[]>("users-list", data);
 };
 
 export const matchesCheck = async (
@@ -37,7 +41,8 @@ export const userUpdate = async (
   name: string,
   description: string,
   avatar_url: string,
-  filters: string[]
+  filters: string[],
+  PeopleSeen: string[]
 ): Promise<{ id: string }> =>
   callRemoteFunction<{
     id: string;
@@ -47,4 +52,5 @@ export const userUpdate = async (
     filters,
     description,
     avatar_url,
+    PeopleSeen,
   });
