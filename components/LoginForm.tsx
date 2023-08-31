@@ -7,6 +7,7 @@ import { ViewStyle } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Badge, Button, ProgressBar, TextInput } from "react-native-paper";
 import { IconButton, MD3Colors } from "react-native-paper";
+import { makeTranslations } from "../react-littera";
 
 interface LoginFormProps {
   submitting: boolean;
@@ -19,6 +20,8 @@ const LoginForm = (props: LoginFormProps) => {
   const [mrunio, setMrunio] = useState(0);
   const [allart, setAllart] = useState<string>("");
   const navigation = useNavigation();
+  const useTrans = makeTranslations({});
+  const translated = useTrans();
   const navigateToHome = () => {
     navigation.navigate("Home" as never);
   };
@@ -82,8 +85,8 @@ const LoginForm = (props: LoginFormProps) => {
         />
         <TextInput
           mode="outlined"
-          label="password"
-          placeholder="Password"
+          label={translated.password}
+          placeholder={translated.password}
           secureTextEntry
           right={<TextInput.Affix text="/100" />}
           value={password}
@@ -94,8 +97,7 @@ const LoginForm = (props: LoginFormProps) => {
       </View>
       <View style={{ marginVertical: 20 }}>
         <Button onPress={onSubmit} mode="contained" disabled={props.submitting}>
-          {props.submitting ? "Logging in..." : "Login"}{" "}
-          {/* Show different text based on the 'submitting' state */}
+          {translated.login}
         </Button>
         {mrunio === 1 && <Allert Allart={allart} />}
       </View>

@@ -2,40 +2,36 @@ import React from "react";
 import { useNavigation } from "@react-navigation/native";
 import { SuperButton } from "../components/SuperButton";
 import { IconButton } from "../components/IconButton";
+import { SettingsForm } from "../components/SettingsForm";
 import { Logo } from "../components/Logo";
 import { ProfileForm } from "../components/ProfileForm";
 import { Appbar, Avatar } from "react-native-paper";
 import { StyleSheet, View, Text, Image, Pressable } from "react-native";
 import { useUser } from "../utils/user-hook";
 import { set } from "firebase/database";
-import { BottomBar } from "../components/BottomBar";
+import { EditProfileForm } from "../components/EditProfileForm";
 
 interface Props {}
 
-const ProfileScreen = () => {
+const EditProfileScreen = () => {
   const navigation = useNavigation();
 
   const navigateToBack = () => {
-    navigation.goBack();
-  };
-
-  const navigateToProfileChat = () => {
-    navigation.navigate("EditProfile" as never);
+    navigation.navigate("Profile" as never);
   };
 
   return (
     <View style={styles.container}>
       <Appbar.Header style={styles.TopBar}>
-        <Appbar.Content title="Title" />
         <Appbar.Action
-          icon="pencil"
+          icon="arrow-left"
           color="white"
-          onPress={navigateToProfileChat}
+          onPress={navigateToBack}
         />
+        <Appbar.Content title="Title" />
       </Appbar.Header>
 
-      <ProfileForm />
-      <BottomBar />
+      <EditProfileForm />
     </View>
   );
 };
@@ -88,4 +84,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ProfileScreen;
+export default EditProfileScreen;

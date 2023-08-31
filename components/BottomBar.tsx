@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Button, Pressable, StyleSheet, Text, View } from "react-native";
 import { IconButton } from "react-native-paper";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import { removeStoreItem } from "../utils/async-store";
 import { LinearGradient } from "expo-linear-gradient";
 
@@ -9,7 +9,11 @@ interface Props {}
 
 export const BottomBar = (props: Props) => {
   const navigation = useNavigation();
+  const route = useRoute();
 
+  const isScreenActive = (screenName: string) => {
+    return route.name === screenName;
+  };
 
   const navigateToLogin = () => {
     navigation.navigate("Login" as never);
@@ -24,10 +28,22 @@ export const BottomBar = (props: Props) => {
     navigation.navigate("ChatLobby" as never);
   };
 
+  const navigateToProfile = async () => {
+    navigation.navigate("Profile" as never);
+  };
+
+  const navigateToSettings = async () => {
+    navigation.navigate("Settings" as never);
+  };
+
+  const navigateToHome = async () => {
+    navigation.navigate("Home" as never);
+  };
+
   return (
     <View style={styles.container}>
       <LinearGradient
-         colors={["#7536db", "#DB36A4"]}
+        colors={["#7536db", "#DB36A4"]}
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 0 }}
         style={styles.gradientContainer}
@@ -35,23 +51,35 @@ export const BottomBar = (props: Props) => {
         <View style={styles.iconContainer}>
           <IconButton
             size={40}
-            onPress={LogOut}
-            icon="logout"
+            onPress={navigateToProfile}
+            icon={
+              isScreenActive("Profile") || isScreenActive("EditProfile")
+                ? "account"
+                : "account-outline"
+            }
             iconColor="white"
           />
           <IconButton
-            size={40}
-            onPress={LogOut}
-            icon="magnify"
+            size={45}
+            onPress={navigateToHome}
+            icon={isScreenActive("Home") ? "home" : "home-outline"}
             iconColor="white"
-     
           />
           <IconButton
             size={40}
             onPress={navigateToProfileChatLobby}
-            icon="comment"
+            icon={
+              isScreenActive("ChatLobby") || isScreenActive("TargetProfile")
+                ? "chat"
+                : "chat-outline"
+            }
             iconColor="white"
-           
+          />
+          <IconButton
+            size={40}
+            onPress={navigateToSettings}
+            icon={isScreenActive("Settings") ? "cog" : "cog-outline"}
+            iconColor="white"
           />
         </View>
       </LinearGradient>
@@ -63,7 +91,7 @@ const styles = StyleSheet.create({
   container: {
     justifyContent: "center",
     alignItems: "center",
-
+    marginBottom: 15,
     borderColor: "Dark", // Border color
     elevation: 0, // Decreased elevation
     height: 80,
@@ -84,6 +112,6 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "100%",
     backgroundColor: "rgba(255,255,255, 0.25)",
-    paddingHorizontal: 40,
+    paddingHorizontal: 20,
   },
 });

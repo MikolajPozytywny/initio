@@ -9,11 +9,14 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import { setStoreItem, getStoreItem } from "../utils/async-store";
 import { Button } from "react-native-paper";
 import { Allert } from "../components/Allert";
+import { makeTranslations } from "../react-littera";
 
 const ReggisterScreen = () => {
   const navigation = useNavigation();
   const [allart, setAllart] = useState<string>("");
   const [mrunio, setMrunio] = useState(0);
+  const useTrans = makeTranslations({});
+  const translated = useTrans();
 
   // const handleGoogleSignIn = async (user: any) => {
   //   console.log("Google sign in", user);
@@ -120,8 +123,12 @@ const ReggisterScreen = () => {
         {mrunio === 1 && <Allert Allart={allart} />}
       </View>
       <View style={{ marginVertical: 20 }}>
-        <Button onPress={navigateTorLogin} mode="contained">
-          Login
+        <Button
+          onPress={navigateTorLogin}
+          style={{ backgroundColor: "#454444" }}
+          mode="contained"
+        >
+          {translated.login}
         </Button>
       </View>
     </View>

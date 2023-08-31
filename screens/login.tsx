@@ -9,8 +9,9 @@ import { setStoreItem } from "../utils/async-store";
 import { Button, MD3Colors, ProgressBar, TextInput } from "react-native-paper";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../fireBaseConfig";
-import { userInfo } from "../api/user.api";
+import { userInfo } from "../api/api";
 import { Allert } from "../components/Allert";
+import { makeTranslations, useLitteraMethods } from "../react-littera";
 
 enum LoginError {
   "UNKNOWN_ERROR" = 1,
@@ -28,6 +29,8 @@ const LoginScreen = () => {
   const [errorMsg, setErrorMsg] = useState<LoginError | null>(null);
   const [progress, setProgress] = useState(0);
   const [submitting, setSubmitting] = useState(false);
+  const useTrans = makeTranslations({});
+  const translated = useTrans();
 
   const navigateTorRegister = () => {
     navigation.navigate("Reggister" as never);
@@ -93,8 +96,9 @@ const LoginScreen = () => {
             onPress={navigateTorRegister}
             mode="contained"
             disabled={submitting}
+            style={{ backgroundColor: "#454444" }}
           >
-            Reggister
+            {translated.register}
           </Button>
         </View>
       </View>

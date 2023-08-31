@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useAsyncStorage } from "@react-native-async-storage/async-storage";
 import { User } from "../types";
-import { userInfo } from "../api/user.api";
+import { userInfo } from "../api/api";
 
 /**
  * Custom React hook that returns the user data.
@@ -23,13 +23,12 @@ export const useUser = () => {
     setError("");
     const userData = await asyncStorageUser.getItem();
     try {
-      const parsedUserData = JSON.parse(userData);
-
-      if (parsedUserData) {
+      if (userData) {
+        const parsedUserData = JSON.parse(userData);
         const user = await userInfo(parsedUserData.id);
 
         console.log("User Info =>", user);
-        await asyncStorageUser.setItem(user as any);
+        // await asyncStorageUser.setItem(user as any);
         setUser(user);
       } else {
         setUser(null);

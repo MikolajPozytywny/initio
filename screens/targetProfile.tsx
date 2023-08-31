@@ -9,12 +9,20 @@ import { StyleSheet, View, Text, Image, Pressable } from "react-native";
 import { useUser } from "../utils/user-hook";
 import { set } from "firebase/database";
 import { BottomBar } from "../components/BottomBar";
+import { TargetProfileForm } from "../components/TargetProfileForm";
 
-interface Props {}
+interface Props {
+  route: any;
+}
 
-const ProfileScreen = () => {
+const TargetProfileScreen = ({ route }: Props) => {
   const navigation = useNavigation();
-
+  const ConverationId = route.params?.ConversationId;
+  const targetUser = route.params?.targetUser;
+  const targetUserAvatar = route.params?.targetUserAvatar;
+  const targetUserName = route.params?.targetUserName;
+  const targetUserDescription = route.params?.targetUserDescription;
+  console.log("TargetProfileScreen", targetUser);
   const navigateToBack = () => {
     navigation.goBack();
   };
@@ -22,19 +30,24 @@ const ProfileScreen = () => {
   const navigateToProfileChat = () => {
     navigation.navigate("EditProfile" as never);
   };
-
+  console.log(
+    "TargetProfileScreen",
+    targetUser,
+    targetUserName,
+    targetUserAvatar
+  );
   return (
     <View style={styles.container}>
       <Appbar.Header style={styles.TopBar}>
         <Appbar.Content title="Title" />
-        <Appbar.Action
-          icon="pencil"
-          color="white"
-          onPress={navigateToProfileChat}
-        />
       </Appbar.Header>
 
-      <ProfileForm />
+      <TargetProfileForm
+        id={targetUser}
+        name={targetUserName}
+        avatarUrl={targetUserAvatar}
+        description={targetUserDescription}
+      />
       <BottomBar />
     </View>
   );
@@ -88,4 +101,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ProfileScreen;
+export default TargetProfileScreen;

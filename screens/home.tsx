@@ -12,12 +12,16 @@ import { BottomBar } from "../components/BottomBar";
 import { SwaiperBottomBar } from "../components/SwaiperBottomBar";
 import { Slider1 } from "../components/Slider";
 import { SwaiperTopBar } from "../components/SwaiperTopBar";
-import { userList } from "../api/user.api";
+import { userList } from "../api/api";
 import { User } from "../types";
 
-const HomeScreen = () => {
-  const navigation = useNavigation();
+interface ChatHomeProps {
+  route: any; // Route prop from react-navigation
+}
 
+const HomeScreen = ({ route }: ChatHomeProps) => {
+  const navigation = useNavigation();
+  const description = route.params?.description;
   const navigateToLogin = () => {
     navigation.navigate("Login" as never);
   };
@@ -37,7 +41,6 @@ const HomeScreen = () => {
 
   const fetchUserList = async () => {
     const response = await userList();
-    console.log("User list", response);
     setUsers(response);
   };
 
@@ -49,20 +52,17 @@ const HomeScreen = () => {
     await removeStoreItem("user");
     navigateToLogin();
   };
-  console.log("User list", users);
-
+  console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", description);
   return (
     <>
       <View style={styles.container}>
-        <SwaiperTopBar />
+        <View style={styles.topBarContainer}>
+          <SwaiperTopBar />
+        </View>
         <View style={styles.swaiperContainer}>
           <Swaiper />
-          <View style={styles.swaiperBottomBarConteiner}>
-            <SwaiperBottomBar />
-          </View>
         </View>
-        <Slider1 onSlideUp={console.log} />
-        <View style={styles.superButtonContainer}>
+        <View style={styles.bottomBar2}>
           <BottomBar />
         </View>
       </View>
@@ -71,44 +71,50 @@ const HomeScreen = () => {
 };
 const styles = StyleSheet.create({
   container: {
-    position: "relative",
     flex: 1,
+    maxHeight: "100%",
     width: "100%",
     alignItems: "center",
-    justifyContent: "space-between", // Add this to distribute content vertically
+    justifyContent: "space-between",
     backgroundColor: "#241E24",
   },
   swaiperContainer: {
-    backgroundColor: "#424242",
-    alignItems: "center",
-    paddingHorizontal: 5,
-    top: -50,
-    marginTop: 10,
-    maxHeight: "70%",
-    Width: "110%",
-    borderRadius: 60,
-    alignSelf: "center", // Align the Swaiper to the top
-    marginBottom: 20,
+    width: "100%",
+    maxWidth: "100%",
+    maxHeight: "100%",
+    height: "100%",
   },
   superButtonContainer: {
     maxHeight: "100%", // Adjust the height as needed
+    maxWidth: "100%",
     alignItems: "center",
+    height: "100%",
+    justifyContent: "flex-end",
     alignSelf: "center", // Align the BottomBar to the bottom
     marginBottom: 10,
   },
-  swaiperBottomBarConteiner: {
-    alignItems: "center",
-    maxHeight: "100%",
-    marginBottom: 10,
-  },
   topBarContainer: {
-    flexDirection: "row", // Przyciski zostaną ułożone w jednym rzędzie
-    justifyContent: "space-between", // Odległość między przyciskami będzie równa
+    justifyContent: "center", // Odległość między przyciskami będzie równa
     alignItems: "center", // Przyciski będą wyśrodkowane w pionie
     width: "100%",
-
-    paddingHorizontal: 5,
-    paddingVertical: 5,
+    maxWidth: "100%",
+  },
+  bottomBar2: {
+    alignItems: "center",
+    justifyContent: "flex-end",
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+    right: 0,
+  },
+  Text: {
+    position: "absolute",
+    width: "100%",
+    textAlign: "center",
+    marginTop: "20%",
+    color: "white",
+    fontSize: 20,
+    transform: [{ rotate: "45deg" }],
   },
 });
 

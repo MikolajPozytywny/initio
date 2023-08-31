@@ -5,6 +5,8 @@ import { StyleSheet, View } from "react-native";
 import { Allert } from "./Allert";
 import { ViewStyle } from "react-native";
 import { Button, TextInput } from "react-native-paper";
+import { translate } from "@assembless/react-littera";
+import { makeTranslations } from "../react-littera";
 
 interface ReggisterFormProps {
   onSubmit: (email: string, password: string) => void;
@@ -14,6 +16,8 @@ const ReggisterForm = (props: ReggisterFormProps) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [mrunio, setMrunio] = useState(0);
+  const useTrans = makeTranslations({});
+  const translated = useTrans();
   const [allart, setAllart] = useState<string>("");
   const [ConfirmPassword, setConfirmPassword] = useState("");
   const onSubmit = () => {
@@ -83,7 +87,7 @@ const ReggisterForm = (props: ReggisterFormProps) => {
 
         <TextInput
           mode="outlined"
-          label="password"
+          label={translated.password}
           placeholder="Password"
           secureTextEntry
           right={<TextInput.Affix text="/100" />}
@@ -92,7 +96,7 @@ const ReggisterForm = (props: ReggisterFormProps) => {
         />
         <TextInput
           mode="outlined"
-          label="confirmPassword"
+          label={translated.confirmPassword}
           placeholder="confirmPassword"
           secureTextEntry
           right={<TextInput.Affix text="/100" />}
@@ -102,7 +106,7 @@ const ReggisterForm = (props: ReggisterFormProps) => {
       </View>
       <View style={{ marginVertical: 20 }}>
         <Button onPress={onSubmit} mode="contained">
-          reggister
+          {translated.register}
         </Button>
 
         {mrunio === 1 && <Allert Allart={allart} />}

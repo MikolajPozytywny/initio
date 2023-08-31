@@ -1,36 +1,88 @@
-import React from "react";
-import { StyleSheet, View } from "react-native";
+import React, { useEffect, useState } from "react";
+import { ScrollView, StyleSheet, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { NewChat } from "../components/newChat";
 import { TopBar } from "../components/TopBar";
-import { user2, user, user3 } from "../utils/Mocks/Mock_1";
+
+import { User } from "../types";
+import { userList, userInfo } from "../api/api";
+import { ActivityIndicator, MD2Colors, Text } from "react-native-paper";
+import { useUser } from "../utils/user-hook";
+import { makeTranslations } from "../react-littera";
+import { BottomBar } from "../components/BottomBar";
 
 interface ChatLobbyProps {
-onPress: () => void;
-
+  onPress: () => void;
+  contacts: string[];
 }
-
 const ChatLobbyScreen = () => {
   const navigation = useNavigation();
+  const { user, loading: userLoading } = useUser();
+  const [contactUsers, setContactUsers] = useState<User[]>([]);
+  const [loading, setLoading] = useState(false); // Set initial loading state to false
+  const useTrans = makeTranslations({});
+  const translated = useTrans();
 
-  // Handle chat item press
- 
- 
+  const fetchData = async () => {
+    try {
+      setLoading(true); // Set loading to true before fetching data
+
+      const contactUsersData = await Promise.all(
+        user?.contacts.map(async (userId) => {
+          const userInfoResponse = await userInfo(userId);
+          return userInfoResponse;
+        })
+      );
+
+      setContactUsers(contactUsersData);
+      setLoading(false); // Set loading to false after data is fetched
+    } catch (error) {
+      console.error("Error fetching users:", error);
+      setLoading(false); // Set loading to false if an error occurs
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, [user?.id]);
+
   return (
-    <View style={Styles.container}>
-      <View style={Styles.topBar}>
-        <TopBar />
-      </View>
-      <View style={Styles.chat}>
-        <NewChat user={user}   conversationId="abc" />
-        <NewChat user={user2}   conversationId="abc2" />
-        <NewChat user={user3}  conversationId="abc" />
-      </View>
+    <View style={styles.container}>
+      <View style={styles.topBar}></View>
+      <ScrollView>
+        <View style={styles.chat}>
+          {loading ? (
+            <ActivityIndicator
+              animating={true}
+              color={MD2Colors.red800}
+              size={"large"}
+            />
+          ) : contactUsers.length === 0 ? (
+            <Text style={styles.Text}>
+              {user && user.contacts.length === 0
+                ? "Match with users to start a conversation"
+                : ""}
+            </Text>
+          ) : (
+            contactUsers.map((contact) => (
+              <NewChat
+                key={contact.id}
+                id={contact.id}
+                name={contact.name}
+                avatarUrl={contact.avatar_url}
+                conversationId={user?.contacts}
+                descryption={contact.description}
+              />
+            ))
+          )}
+        </View>
+      </ScrollView>
+      <BottomBar />
     </View>
   );
 };
 
-const Styles = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#241E24",
@@ -41,16 +93,25 @@ const Styles = StyleSheet.create({
   },
   topBar: {
     paddingTop: 20,
-    paddingHorizontal: 20,
+    marginTop: "10%",
     maxWidth: "100%",
     width: "100%",
   },
   chat: {
     flex: 1,
-    alignItems: "flex-start",
-    justifyContent: "flex-start",
+    alignItems: "center",
+    justifyContent: "center",
     maxWidth: "100%",
     width: "100%",
+  },
+  Text: {
+    flex: 1,
+    color: "white",
+    alignItems: "center",
+    justifyContent: "center",
+    fontSize: 20,
+    textAlign: "center",
+    marginTop: 20,
   },
 });
 

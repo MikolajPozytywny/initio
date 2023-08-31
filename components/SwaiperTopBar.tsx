@@ -1,55 +1,39 @@
-import React from 'react';
+import React from "react";
 import { Image, StyleSheet, View } from "react-native";
 import { IconButton } from "../components/IconButton";
-import { useNavigation } from '@react-navigation/native';
-import { user, messages, user2 } from "../utils/Mocks/Mock_1";
-import { Appbar } from 'react-native-paper';
+import { useNavigation } from "@react-navigation/native";
+import { Appbar } from "react-native-paper";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export const SwaiperTopBar = () => {
   const navigation = useNavigation();
 
+  const _handleSettings = () => navigation.navigate("Settings" as never);
 
-  
-  
-    const _handleSettings = () =>  navigation.navigate("Settings" as never);
-  
-    const _handleSearch = () =>  navigation.navigate("Profile" as never);
+  const clearSwipedUsersFromStorage = async () => {
+    navigation.navigate("Filters" as never);
+  };
 
+  const _handleSearch = () => navigation.navigate("Profile" as never);
 
-    return (
-        <Appbar.Header style={styles.container}>
-          <Appbar.Action
-            icon="account-circle"
-            onPress={_handleSearch}
-            color="white"
-            size={40}
-            style={styles.actionLeft}
-          />
-          <Appbar.Action
-            icon="cog-outline"
-            onPress={_handleSettings}
-            color="white"
-            size={40}
-            style={styles.actionRight}
-          />
-        </Appbar.Header>
-      );
-    };
-    
-    const styles = StyleSheet.create({
-      container: {
-        backgroundColor: "transparent",
-        color: "white",
-        flexDirection: "row",
-        justifyContent: "space-between",
-        paddingHorizontal: 16,
-      marginBottom: 20,
-        width: "100%",
-      },
-      actionLeft: {
-        marginRight: "auto",
-      },
-      actionRight: {
-        marginLeft: "auto",
-      },  });
+  return (
+    <Appbar.Header style={styles.container}>
+      <Appbar.Content title="" color="white" />
+      <Appbar.Action
+        icon="menu"
+        onPress={clearSwipedUsersFromStorage}
+        color="white"
+      />
+    </Appbar.Header>
+  );
+};
 
+const styles = StyleSheet.create({
+  container: {
+    backgroundColor: "transparent",
+    color: "white",
+    maxWidth: "100%",
+    width: "100%",
+    // Add your styles here
+  },
+});
